@@ -194,18 +194,11 @@ sup { line-height: 0; }
 .hero__body { position: relative; z-index: 2; display: grid; gap: var(--space-lg); padding-block: calc(var(--bar-h) + var(--space-3xl)) var(--space-3xl); }
 .hero__label { display: inline-flex; align-items: center; gap: 0.6em; font-size: var(--text-sm); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-plate-ink-2); }
 .hero__label::before { content: ""; width: 0.5em; height: 0.5em; background: var(--color-accent); border-radius: 50%; }
-.hero__scroll { position: absolute; z-index: 2; inset-inline-start: var(--page-gutter); bottom: var(--space-lg); display: none; align-items: center; gap: var(--space-sm); font-size: var(--text-sm); letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-plate-muted); }
-.hero__scroll-line { position: relative; display: block; width: 3.5rem; height: 1px; background: var(--color-plate-rule); overflow: clip; }
-.hero__scroll-line::after { content: ""; position: absolute; inset: 0; background: var(--color-accent); transform-origin: left; animation: scroll-cue 2.2s var(--ease-in-out) infinite; }
-@keyframes scroll-cue { 0% { transform: scaleX(0); transform-origin: left; } 55% { transform: scaleX(1); transform-origin: left; } 56% { transform-origin: right; } 100% { transform: scaleX(0); transform-origin: right; } }
 .hero h1 { color: var(--color-plate-ink); max-width: 15ch; text-shadow: 0 2px 24px oklch(12% 0.05 262 / 0.35); }
 .hero .lede { color: var(--color-plate-ink-2); max-width: 54ch; }
 .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); margin-top: var(--space-xs); }
-.hero__caption { position: absolute; z-index: 2; inset-inline-end: var(--page-gutter); bottom: var(--space-lg); font-size: var(--text-sm); color: var(--color-plate-muted); letter-spacing: 0.02em; display: none; }
 @media (min-width: 60rem) {
   .hero__body { padding-block: calc(var(--bar-h) + var(--space-4xl)) var(--space-4xl); }
-  .hero__caption { display: block; }
-  .hero__scroll { display: inline-flex; }
 }
 
 /* ---------- T4 · stat strip on navy, continuing the hero's base ---------- */
@@ -672,5 +665,4 @@ sup { line-height: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 150ms !important; animation-iteration-count: 1 !important; transition-duration: 150ms !important; transition-delay: 0ms !important; }
   .btn:hover, .link-cta:hover .arrow, .tile--photo:hover .tile__photo, .tile--photo-tall:hover .tile__photo { transform: none; }
-  .hero__scroll-line::after { animation: none; transform: scaleX(1); }
 }

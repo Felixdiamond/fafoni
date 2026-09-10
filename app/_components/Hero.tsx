@@ -7,8 +7,6 @@ type Props = {
   video: { hd: string; sd: string; poster: string };
   title: string;
   lede: string;
-  caption: string;
-  scroll: string;
   primary: { label: string; href: string };
   secondary: { label: string; href: string };
 };
@@ -16,7 +14,7 @@ type Props = {
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /** H6 photographic fold with a muted looping clip. Media parallaxes; headline blurs in word by word. */
-export function Hero({ video, title, lede, caption, scroll, primary, secondary }: Props) {
+export function Hero({ video, title, lede, primary, secondary }: Props) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLVideoElement>(null);
   const { scrollY } = useScroll();
@@ -98,17 +96,6 @@ export function Hero({ video, title, lede, caption, scroll, primary, secondary }
         </motion.div>
       </motion.div>
 
-      <motion.p
-        className="hero__scroll"
-        aria-hidden="true"
-        initial={reduce ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.6 }}
-      >
-        <span className="hero__scroll-line" />
-        {scroll}
-      </motion.p>
-      <p className="hero__caption">{caption}</p>
     </section>
   );
 }

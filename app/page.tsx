@@ -23,8 +23,6 @@ export default function HomePage() {
         video={{ hd: "/video/london-dusk-1080.mp4", sd: "/video/london-dusk-720.mp4", poster: "/video/london-dusk-poster.jpg" }}
         title={hero.title}
         lede={hero.lede}
-        caption={hero.caption}
-        scroll={hero.scroll}
         primary={{ label: hero.primary, href: links.bookConsultation }}
         secondary={{ label: hero.secondary, href: links.freeTest }}
       />

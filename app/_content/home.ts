@@ -9,8 +9,6 @@ export const hero = {
     "Get certified, build in-demand skills and gain the qualifications employers are looking for — and take your career global with visa sponsorship opportunities.",
   primary: "Book a free consultation",
   secondary: "Take a free test",
-  caption: "The City of London, dusk",
-  scroll: "Scroll",
 };
 
 /** T4 stat strip under the hero. All figures are the client's. */
