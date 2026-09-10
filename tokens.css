@@ -1,0 +1,97 @@
+/* Fafoni — design tokens (Hallmark custom theme, tuned)
+ * anchor: navy 262° carries paper/ink/plate · orange 50° is the single accent
+ * fonts: Newsreader (display) · IBM Plex Sans (body) — loaded via next/font in app/layout.tsx
+ */
+:root {
+  /* ---- colour · light paper, navy plates ---- */
+  --color-paper:        oklch(96.5% 0.008 250);
+  --color-paper-2:      oklch(93.5% 0.012 250);
+  --color-rule:         oklch(82% 0.016 255);
+  --color-rule-2:       oklch(88% 0.012 255);
+  --color-neutral:      oklch(56% 0.022 260);
+  --color-muted:        oklch(44% 0.03 262);
+  --color-ink-2:        oklch(30% 0.04 262);
+  --color-ink:          oklch(20% 0.04 262);
+
+  /* dark ground the logo was drawn for · elevation goes lighter, never darker */
+  --color-plate-0:      oklch(18% 0.05 262);
+  --color-plate:        oklch(24% 0.065 262);
+  --color-plate-2:      oklch(28% 0.06 262);
+  --color-plate-3:      oklch(31% 0.055 262);
+  --color-plate-rule:   oklch(40% 0.05 262);
+  --color-plate-muted:  oklch(78% 0.025 255);
+  --color-plate-ink-2:  oklch(87% 0.015 255);
+  --color-plate-ink:    oklch(95.5% 0.008 250);
+
+  /* the mark's sweep — for the CSS-built ring */
+  --color-mark-sky:     oklch(76% 0.13 232);
+  --color-mark-blue:    oklch(52% 0.24 264);
+  --color-mark-violet:  oklch(48% 0.20 292);
+
+  /* accent — the orange in the mark */
+  --color-accent:       oklch(66% 0.17 50);
+  --color-accent-2:     oklch(71% 0.16 52);
+  --color-accent-deep:  oklch(48% 0.14 45);
+  --color-accent-ink:   var(--color-ink);
+  --color-focus:        oklch(57% 0.20 50); /* ≥3:1 on paper and on plate */
+
+  /* ---- type ---- */
+  --font-display: var(--font-newsreader), "Times New Roman", ui-serif, serif;
+  --font-body:    var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+
+  /* 1.25 major-third scale on a 17 px base */
+  --text-sm:        0.85rem;
+  --text-base:      1rem;
+  --text-md:        1.25rem;
+  --text-lg:        1.5625rem;
+  --text-xl:        1.953rem;
+  --text-2xl:       2.441rem;
+  --text-3xl:       3.052rem;
+  --text-display-s: clamp(2.5rem, 3.6vw + 1rem, 4.25rem);
+  --text-display:   clamp(2.75rem, 5vw + 1rem, 5.25rem);
+  --text-h2:        clamp(2.1rem, 2.2vw + 1rem, 3.05rem);
+
+  /* ---- space · 4 pt ---- */
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  /* ---- rules · radii ---- */
+  --rule-hair:  1px;
+  --rule-thick: 2px;
+  --radius-0:   0;
+  --radius-sm:  4px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+
+  /* ---- depth · one whisper, one panel ---- */
+  --shadow-whisper: 0 1px 2px oklch(20% 0.04 262 / 0.06);
+  --shadow-panel:   0 32px 56px -28px oklch(8% 0.05 262 / 0.7);
+
+  /* ---- motion ---- */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro:   120ms;
+  --dur-short:   220ms;
+  --dur-long:    420ms;
+  --dur-morph:   520ms; /* N10 nav morph, single curve */
+
+  /* ---- z ---- */
+  --z-base:     1;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-menu:     250;
+  --z-sticky-nav: 300;
+  --z-modal:    400;
+  --z-toast:    500;
+  --z-tooltip:  600;
+}

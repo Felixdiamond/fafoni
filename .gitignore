@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tooling — stays out of the repo
+.claude/
+.agents/
+.hallmark/
+CLAUDE.md
+AGENTS.md
+skills-lock.json
+# project reference material — not code, stays local
+reference/
+content/
+design.md
+public/photos/CREDITS.md
