@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import manPhoto from "@/public/photos/pexels-13801809.jpg";
+import closingPhoto from "@/public/photos/closing-team.jpg";
 import laptopPhoto from "@/public/photos/pexels-9429373.jpg";
 import { Closing } from "../_components/Closing";
 import { ServicesHero } from "../_components/ServicesHero";
 import { Reveal } from "../_components/Reveal";
 import { ServicesRail } from "../_components/ServicesRail";
 import { Stories } from "../_components/Stories";
+import { withPortraits } from "../_content/portraits";
 import { Numbers } from "../_components/Numbers";
 import { closing, hero, stories } from "../_content/home";
 import { comingSoon, servicesHero, servicesIntro } from "../_content/services";
@@ -49,7 +50,7 @@ export default function ServicesPage() {
               <Reveal as="p" delay={0.2}>{stories.body}</Reveal>
             </div>
           </div>
-          <Stories items={stories.items} />
+          <Stories items={withPortraits(stories.items)} />
         </div>
       </section>
 
@@ -75,7 +76,7 @@ export default function ServicesPage() {
       </section>
 
       <Closing
-        photo={manPhoto}
+        photo={closingPhoto}
         statement={closing.statement}
         body={closing.body}
         primary={{ label: hero.primary, href: links.bookConsultation }}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import manPhoto from "@/public/photos/pexels-13801809.jpg";
+import closingPhoto from "@/public/photos/closing-team.jpg";
 import teamPhoto from "@/public/photos/pexels-5945799.jpg";
 import { AboutHero } from "../_components/AboutHero";
 import { Closing } from "../_components/Closing";
@@ -110,7 +110,7 @@ export default function AboutPage() {
       </section>
 
       <Closing
-        photo={manPhoto}
+        photo={closingPhoto}
         statement={aboutClosing.statement}
         body={aboutClosing.body}
         primary={{ label: hero.primary, href: links.bookConsultation }}

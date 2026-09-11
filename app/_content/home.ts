@@ -4,7 +4,7 @@ export const brandLine = "Skills · Careers · Global Opportunities";
 export const tagline = "Skills. Careers. Global Opportunities.";
 
 export const hero = {
-  title: "Get qualified, land your dream job in project management and earn €50k–€100k a year with ease",
+  title: "Get qualified, land your dream job in project management and earn £50k–£100k a year with ease",
   lede:
     "Get certified, build in-demand skills and gain the qualifications employers are looking for, and take your career global with visa sponsorship opportunities.",
   primary: "Book a free consultation",

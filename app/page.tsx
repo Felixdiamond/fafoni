@@ -1,11 +1,12 @@
 import Link from "next/link";
-import manPhoto from "@/public/photos/pexels-13801809.jpg";
+import closingPhoto from "@/public/photos/closing-team.jpg";
 import { Bento } from "./_components/Bento";
 import { Closing } from "./_components/Closing";
 import { Counter } from "./_components/Counter";
 import { Hero } from "./_components/Hero";
 import { Reveal } from "./_components/Reveal";
 import { Stories } from "./_components/Stories";
+import { withPortraits } from "./_content/portraits";
 import { certifications, closing, hero, industries, stories, strip, why } from "./_content/home";
 import { links } from "./_content/links";
 
@@ -138,12 +139,12 @@ export default function HomePage() {
               <Reveal as="p" delay={0.2}>{stories.body}</Reveal>
             </div>
           </div>
-          <Stories items={stories.items} />
+          <Stories items={withPortraits(stories.items)} />
         </div>
       </section>
 
       <Closing
-        photo={manPhoto}
+        photo={closingPhoto}
         statement={closing.statement}
         body={closing.body}
         primary={{ label: hero.primary, href: links.bookConsultation }}
