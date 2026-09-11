@@ -12,13 +12,15 @@ type Props = {
   className?: string;
   id?: string;
   style?: CSSProperties;
+  /** Animate on mount rather than on entering the viewport (for above-the-fold content). */
+  eager?: boolean;
   children: ReactNode;
 };
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /** One-shot fade-up when the element enters the viewport (ScrollReveal). */
-export function Reveal({ as = "div", delay = 0, y = 18, className, id, style, children }: Props) {
+export function Reveal({ as = "div", delay = 0, y = 18, className, id, style, eager = false, children }: Props) {
   const reduce = useReducedMotion();
   const Tag = tags[as];
   return (
@@ -27,8 +29,7 @@ export function Reveal({ as = "div", delay = 0, y = 18, className, id, style, ch
       id={id}
       style={style}
       initial={reduce ? false : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      {...(eager ? { animate: { opacity: 1, y: 0 } } : { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "0px 0px -10% 0px" } })}
       transition={{ duration: 0.7, delay, ease }}
     >
       {children}

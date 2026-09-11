@@ -8,6 +8,7 @@ import { ServicesRail } from "../_components/ServicesRail";
 import { closing, hero } from "../_content/home";
 import { comingSoon, enquire, services, servicesHero, servicesIntro } from "../_content/services";
 import { enquiryLink, links } from "../_content/links";
+import { products } from "../_content/products";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -22,7 +23,8 @@ export default function ServicesPage() {
         lede={servicesHero.lede}
         primary={{ label: hero.primary, href: links.bookConsultation }}
         secondary={{ label: hero.secondary, href: links.freeTest }}
-        stops={services.map((s) => ({ href: `#${s.id}`, label: s.name }))}
+        stops={products.map((p) => ({ href: `#${p.id}`, label: p.name }))}
+        products={products}
       />
 
       <ServicesRail
