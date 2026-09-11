@@ -5,7 +5,8 @@ import { Closing } from "../_components/Closing";
 import { ServicesHero } from "../_components/ServicesHero";
 import { Reveal } from "../_components/Reveal";
 import { ServicesRail } from "../_components/ServicesRail";
-import { closing, hero } from "../_content/home";
+import { Stories } from "../_components/Stories";
+import { closing, hero, stories } from "../_content/home";
 import { comingSoon, servicesHero, servicesIntro } from "../_content/services";
 import { enquiryLink, links } from "../_content/links";
 import { buyLabel, enquireLabel, products } from "../_content/products";
@@ -35,6 +36,19 @@ export default function ServicesPage() {
         buyLabel={buyLabel}
         enquireLabel={enquireLabel}
       />
+
+      {/* Success stories · same three, same carousel on phones */}
+      <section className="band-paper" aria-labelledby="stories-title">
+        <div className="wrap stories">
+          <div className="stories__pin">
+            <div className="sec__head sec__head--tight">
+              <h2 id="stories-title" data-split>{stories.title}</h2>
+              <Reveal as="p" delay={0.2}>{stories.body}</Reveal>
+            </div>
+          </div>
+          <Stories items={stories.items} />
+        </div>
+      </section>
 
       {/* Coming soon · giant slow marquee on navy */}
       <section className="soon" aria-labelledby="soon-title">

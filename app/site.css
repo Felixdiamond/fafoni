@@ -583,6 +583,8 @@ sup { line-height: 0; }
   .rail__progress-bar { display: block; height: 100%; width: 100%; background: var(--color-accent); transform: scaleX(0); transform-origin: left; }
 }
 
+.band-paper { background: var(--color-paper); }
+
 /* ---------- coming soon · giant marquee on navy ---------- */
 .soon { position: relative; isolation: isolate; background: var(--color-paper); color: var(--color-ink); padding-block: var(--space-3xl); overflow: clip; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
