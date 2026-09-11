@@ -5,6 +5,7 @@ import { Closing } from "./_components/Closing";
 import { Counter } from "./_components/Counter";
 import { Hero } from "./_components/Hero";
 import { Reveal } from "./_components/Reveal";
+import { Stories } from "./_components/Stories";
 import { certifications, closing, hero, industries, stories, strip, why } from "./_content/home";
 import { links } from "./_content/links";
 
@@ -137,17 +138,7 @@ export default function HomePage() {
               <Reveal as="p" delay={0.2}>{stories.body}</Reveal>
             </div>
           </div>
-          <div className="stories__list">
-            {stories.items.map((story, i) => (
-              <Reveal as="figure" className="story" key={story.name} delay={i * 0.08}>
-                <blockquote>{story.quote}</blockquote>
-                <figcaption className="story__who">
-                  <span className="story__name">{story.name}</span>
-                  <span className="story__role">{story.role}</span>
-                </figcaption>
-              </Reveal>
-            ))}
-          </div>
+          <Stories items={stories.items} />
         </div>
       </section>
 
