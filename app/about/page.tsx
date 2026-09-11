@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import manPhoto from "@/public/photos/pexels-13801809.jpg";
-import teamPhoto from "@/public/photos/pexels-30688593.jpg";
+import teamPhoto from "@/public/photos/pexels-5945799.jpg";
 import { AboutHero } from "../_components/AboutHero";
 import { Closing } from "../_components/Closing";
 import { Expand } from "../_components/Expand";
@@ -24,15 +24,24 @@ export default function AboutPage() {
       {/* Who we are · statement, photograph band, three pillars */}
       <section className="who" aria-labelledby="who-title">
         <div className="wrap who__head">
-          <h2 id="who-title" data-split>
-            {who.title}
-          </h2>
-          <Reveal as="p" delay={0.2}>
+          <div className="who__statement">
+            <h2 id="who-title" data-split>
+              {who.title}
+            </h2>
+            <ul className="who__roles" aria-label="Project managers are">
+              {who.roles.map((role, i) => (
+                <Reveal as="li" key={role} delay={0.25 + i * 0.12} y={14}>
+                  {role}
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+          <Reveal as="p" delay={0.5}>
             {who.body}
           </Reveal>
         </div>
         <Expand className="who__band">
-          <Image src={teamPhoto} alt="Four project managers in conversation at a workplace" sizes="100vw" placeholder="blur" />
+          <Image src={teamPhoto} alt="A team of project managers in discussion around a table" sizes="100vw" placeholder="blur" />
         </Expand>
         <div className="who__strip">
           <ul className="wrap who__pillars">

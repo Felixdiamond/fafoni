@@ -9,9 +9,10 @@ export const aboutHero = {
 };
 
 export const who = {
-  title: "Experienced project managers. Nation builders.",
+  title: "Project managers are",
+  roles: ["Nation builders", "World changers", "Change makers"],
   body:
-    "Fafoni is a global project management and career development ecosystem, bringing together experienced project managers, industry experts and a strong network of professionals to help individuals, businesses and organisations achieve their goals.",
+    "Fafoni is a global project management and career development ecosystem, connecting people, expertise and opportunities to turn ambition into measurable impact.",
   pillars: [
     { name: "Decades of experience", body: "A team of project managers and experts bringing real-world experience across multiple industries." },
     { name: "Proven track record", body: "A history of delivering results, creating opportunities and making a positive impact." },
