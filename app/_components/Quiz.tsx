@@ -86,6 +86,7 @@ export function Quiz({ src, label, title, note }: Props) {
   // Tally tells the parent page when the form is submitted.
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
+      if (e.origin !== "https://tally.so") return;
       if (typeof e.data !== "string" || !e.data.includes("Tally.FormSubmitted")) return;
       setSubmitted(true);
       remember("submitted");
