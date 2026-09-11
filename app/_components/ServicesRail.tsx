@@ -104,7 +104,7 @@ export function ServicesRail({ title, services, photo, enquire }: Props) {
           {title}
         </h2>
         <p className="rail__hint" aria-hidden="true">
-          01 — 05
+          01–05
         </p>
       </div>
       <div className="journey" aria-hidden="true">

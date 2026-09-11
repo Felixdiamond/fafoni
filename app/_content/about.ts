@@ -5,7 +5,7 @@ export const aboutHero = {
   lead: "We are Fafoni. We believe in people, skills and a better future.",
   words: ["Ideas", "Plan", "Action", "Impact"],
   body:
-    "Every product we use, every business we build, every community we serve and every goal we achieve — it all starts with a project. And project management is what turns ideas into reality.",
+    "Every product we use, every business we build, every community we serve and every goal we achieve. It all starts with a project. And project management is what turns ideas into reality.",
 };
 
 export const who = {
@@ -50,5 +50,5 @@ export const support = {
 export const aboutClosing = {
   statement: "Be part of the Fafoni ecosystem.",
   body:
-    "Whether you’re looking to build your skills, find the right talent, partner on a project or explore new opportunities — we’re here for you.",
+    "Whether you’re looking to build your skills, find the right talent, partner on a project or explore new opportunities, we’re here for you.",
 };

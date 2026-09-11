@@ -6,7 +6,7 @@ export const tagline = "Skills. Careers. Global Opportunities.";
 export const hero = {
   title: "Land your dream job in the UK with project management",
   lede:
-    "Get certified, build in-demand skills and gain the qualifications employers are looking for — and take your career global with visa sponsorship opportunities.",
+    "Get certified, build in-demand skills and gain the qualifications employers are looking for, and take your career global with visa sponsorship opportunities.",
   primary: "Book a free consultation",
   secondary: "Take a free test",
 };
@@ -17,7 +17,7 @@ export const strip = {
   cells: [
     { figure: { prefix: "£", from: 45000, to: 70000 }, label: "UK project manager average salary, per year" },
     { figure: { prefix: "£", value: 38700, suffix: "+" }, label: "Skilled Worker visa threshold. Many project management roles meet it, which makes sponsorship possible." },
-    { figure: { text: "Tier 2" }, label: "Skilled Worker Visa. Top UK employers actively hiring — fast-track your career and stay." },
+    { figure: { text: "Tier 2" }, label: "Skilled Worker Visa. Top UK employers actively hiring. Fast-track your career and stay." },
   ],
 } as const;
 
@@ -117,5 +117,5 @@ export const closing = {
   statement: "Your goals. Our mission.",
   body: "Find out which project management path is right for you and get a personalised action plan.",
   contactLabel: "Contact",
-  contactBody: "Questions about certification, careers or sponsorship routes — write to us.",
+  contactBody: "Questions about certification, careers or sponsorship routes? Write to us.",
 };

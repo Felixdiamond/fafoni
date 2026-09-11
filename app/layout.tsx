@@ -27,11 +27,11 @@ const plex = IBM_Plex_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Fafoni — Project management training and career support",
-    template: "%s — Fafoni",
+    default: "Fafoni | Project management training and career support",
+    template: "%s | Fafoni",
   },
   description:
-    "Get certified, build in-demand skills and gain the qualifications employers are looking for — and take your career global with visa sponsorship opportunities.",
+    "Get certified, build in-demand skills and gain the qualifications employers are looking for, and take your career global with visa sponsorship opportunities.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
