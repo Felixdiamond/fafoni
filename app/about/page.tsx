@@ -5,6 +5,7 @@ import teamPhoto from "@/public/photos/pexels-5945799.jpg";
 import { AboutHero } from "../_components/AboutHero";
 import { Closing } from "../_components/Closing";
 import { Expand } from "../_components/Expand";
+import { Numbers } from "../_components/Numbers";
 import { Reveal } from "../_components/Reveal";
 import { ValuesFill } from "../_components/ValuesFill";
 import { aboutClosing, aboutHero, purpose, support, values, who } from "../_content/about";
@@ -54,6 +55,8 @@ export default function AboutPage() {
           </ul>
         </div>
       </section>
+
+      <Numbers />
 
       {/* Purpose · navy, the four verbs */}
       <section className="purpose" aria-labelledby="purpose-title">

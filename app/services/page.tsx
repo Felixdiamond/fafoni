@@ -6,6 +6,7 @@ import { ServicesHero } from "../_components/ServicesHero";
 import { Reveal } from "../_components/Reveal";
 import { ServicesRail } from "../_components/ServicesRail";
 import { Stories } from "../_components/Stories";
+import { Numbers } from "../_components/Numbers";
 import { closing, hero, stories } from "../_content/home";
 import { comingSoon, servicesHero, servicesIntro } from "../_content/services";
 import { enquiryLink, links } from "../_content/links";
@@ -36,6 +37,8 @@ export default function ServicesPage() {
         buyLabel={buyLabel}
         enquireLabel={enquireLabel}
       />
+
+      <Numbers />
 
       {/* Success stories · same three, same carousel on phones */}
       <section className="band-paper" aria-labelledby="stories-title">

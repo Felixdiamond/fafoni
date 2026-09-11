@@ -229,7 +229,9 @@ sup { line-height: 0; }
 .strip__dash { margin-inline: 0.05em; color: var(--color-plate-muted); }
 .strip__figure--text { font-size: clamp(1.6rem, 2vw, 2.1rem); line-height: 1.1; max-width: 12ch; }
 .strip__cell dd { margin: 0; color: var(--color-plate-muted); max-width: 30ch; text-wrap: pretty; }
+.numbers .strip__inner { border-top: 0; }
 @media (min-width: 60rem) {
+  .strip__cells--4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: var(--space-xl) !important; }
   .strip__inner { padding-block: var(--space-3xl) var(--space-3xl); }
   .strip__cells { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl); }
   .strip__cell { padding-block: 0; padding-inline-start: var(--space-lg); border-top: 0; border-inline-start: var(--rule-hair) solid var(--color-plate-rule); }
