@@ -61,6 +61,10 @@ sup { line-height: 0; }
 .btn[data-state="error"]   { border-color: var(--color-accent-deep); }
 .btn[data-state="success"] { background: var(--color-plate); border-color: var(--color-plate); }
 .btn--lg { min-height: 56px; padding: 1rem 2rem; font-size: var(--text-md); }
+.btn--services { gap: 0.6em; }
+.btn--services .arrow { transition: transform var(--dur-short) var(--ease-out); }
+.btn--services:hover .arrow { transform: translateX(3px); }
+.certs__copy .btn, .split__text .btn { justify-self: start; margin-top: var(--space-xs); }
 @media (max-width: 39.99rem) { .btn--lg { min-height: 52px; padding: 0.85rem 1.5rem; font-size: var(--text-base); } }
 .btn--accent { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
 .btn--accent:hover, .btn--accent.is-hover { background: var(--color-accent-2); border-color: var(--color-accent-2); }
@@ -127,8 +131,12 @@ sup { line-height: 0; }
 .nav__link:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 .nav__cta { display: none; }
 .nav.is-floating .nav__cta { min-height: 44px; padding-block: 0.6rem; border-radius: 999px; }
+.nav__quick { display: inline-block; margin-inline-start: auto; min-height: 44px; line-height: 44px; padding-inline: var(--space-sm); font-weight: 500; font-size: var(--text-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-plate-ink); text-decoration: none; white-space: nowrap; }
+.nav__quick[aria-current="page"] { color: var(--color-accent); }
+.nav__quick:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+@media (min-width: 60rem) { .nav__quick { display: none; } }
 .nav__menu {
-  margin-inline-start: auto; display: inline-flex; align-items: center; justify-content: center;
+  margin-inline-start: var(--space-xs); display: inline-flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; padding: 0; background: transparent; color: var(--color-plate-ink);
   border: var(--rule-hair) solid var(--color-plate-rule); border-radius: 999px; font: inherit; cursor: pointer;
   transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);

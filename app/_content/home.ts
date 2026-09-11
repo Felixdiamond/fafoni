@@ -47,7 +47,7 @@ export const certifications = {
   title: "Get certified. Stand out.",
   body:
     "Gain globally recognised certifications like PMP®, PRINCE2®, CAPM® and more. Build credibility, boost your CV and open doors to better opportunities.",
-  cta: "Explore certification options",
+  cta: "See our services",
   list: [
     { name: "PMP", registered: true },
     { name: "PRINCE2", registered: true },
@@ -75,7 +75,7 @@ export const why = {
 export const industries = {
   title: "Many industries. Endless opportunities.",
   body: "From startups to global corporations, project managers are the backbone of progress.",
-  cta: "Explore our services",
+  cta: "See all services",
   list: [
     "IT & Technology",
     "Finance & Banking",

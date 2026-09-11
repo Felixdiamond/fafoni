@@ -65,7 +65,7 @@ export default function HomePage() {
           </h2>
           <Reveal className="certs__copy" delay={0.1}>
             <p>{certifications.body}</p>
-            <Link className="link-cta" href={`${links.services}#ace-your-exam`}>
+            <Link className="btn btn--services" href={`${links.services}#ace-your-exam`}>
               {certifications.cta} <Arrow />
             </Link>
           </Reveal>
@@ -109,7 +109,7 @@ export default function HomePage() {
             <h2 id="industries-title" data-split>{industries.title}</h2>
             <Reveal as="p" delay={0.2}>{industries.body}</Reveal>
             <Reveal delay={0.3}>
-              <Link className="link-cta" href={links.services}>
+              <Link className="btn btn--services" href={links.services}>
                 {industries.cta} <Arrow />
               </Link>
             </Reveal>

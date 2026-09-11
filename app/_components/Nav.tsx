@@ -95,6 +95,9 @@ export function Nav({ ctaHref, ctaLabel }: Props) {
           <a className="btn btn--accent nav__cta" href={ctaHref}>
             {ctaLabel}
           </a>
+          <Link href={links.services} className="nav__quick" aria-current={current(links.services)}>
+            Services
+          </Link>
           <button
             type="button"
             className="nav__menu"
