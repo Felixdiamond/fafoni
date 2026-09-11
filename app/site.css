@@ -219,6 +219,7 @@ sup { line-height: 0; }
 }
 .strip__figure .tnum { white-space: nowrap; }
 .strip__dash { margin-inline: 0.05em; color: var(--color-plate-muted); }
+.strip__figure--text { font-size: clamp(1.6rem, 2vw, 2.1rem); line-height: 1.1; max-width: 12ch; }
 .strip__cell dd { margin: 0; color: var(--color-plate-muted); max-width: 30ch; text-wrap: pretty; }
 @media (min-width: 60rem) {
   .strip__inner { padding-block: var(--space-3xl) var(--space-3xl); }

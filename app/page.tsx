@@ -36,7 +36,7 @@ export default function HomePage() {
           <dl className="strip__cells">
             {strip.cells.map((cell, i) => (
               <Reveal as="div" className="strip__cell" key={cell.label} delay={0.1 + i * 0.1}>
-                <dt className="strip__figure">
+                <dt className={`strip__figure${"text" in cell.figure ? " strip__figure--text" : ""}`}>
                   {"text" in cell.figure ? (
                     cell.figure.text
                   ) : "value" in cell.figure ? (

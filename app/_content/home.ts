@@ -15,9 +15,9 @@ export const hero = {
 export const strip = {
   sign: "In-demand skills. Global opportunities.",
   cells: [
-    { figure: { prefix: "£", from: 45000, to: 70000 }, label: "UK project manager average salary, per year" },
+    { figure: { prefix: "£", from: 50000, to: 100000 }, label: "UK project manager average salary, per year" },
     { figure: { prefix: "£", value: 38700, suffix: "+" }, label: "Skilled Worker visa threshold. Many project management roles meet it, which makes sponsorship possible." },
-    { figure: { text: "Tier 2" }, label: "Skilled Worker Visa. Top UK employers actively hiring. Fast-track your career and stay." },
+    { figure: { text: "Visa sponsorship opportunities" }, label: "Skilled Worker visa and Global Talent opportunities with UK employers who sponsor project professionals, so you can build your career and stay." },
   ],
 } as const;
 
