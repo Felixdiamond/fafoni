@@ -7,14 +7,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-import manPhoto from "@/public/photos/pexels-13801809.jpg";
+import teamPhoto from "@/public/photos/pexels-8117476.jpg";
 import laptopPhoto from "@/public/photos/pexels-9429373.jpg";
 
 type Tone = "photo-tall" | "photo" | "plate" | "accent";
 type Tile = { readonly title: string; readonly body: string; readonly tone: Tone };
 
 const photos: Record<string, { src: StaticImageData; alt: string }> = {
-  "Global opportunities": { src: manPhoto, alt: "A project manager in a suit looks up at an office building" },
+  "Global opportunities": { src: teamPhoto, alt: "A team planning a project together around a table" },
   "Flexible learning": { src: laptopPhoto, alt: "A woman studying at a laptop at a wooden desk" },
 };
 

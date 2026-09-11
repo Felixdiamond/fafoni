@@ -291,7 +291,7 @@ sup { line-height: 0; }
 .tile--plate:hover::after { opacity: 1; }
 .tile--photo, .tile--photo-tall { background: var(--color-plate-0); border-color: var(--color-plate-rule); }
 .tile__photo { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-long) var(--ease-out); }
-.tile--photo-tall .tile__photo { object-position: 50% 20%; }
+.tile--photo-tall .tile__photo { object-position: 50% 45%; }
 .tile--photo:hover .tile__photo, .tile--photo-tall:hover .tile__photo { transform: scale(1.05); }
 .tile--photo::after, .tile--photo-tall::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, var(--color-plate-0) 0%, color-mix(in oklch, var(--color-plate-0) 72%, transparent) 42%, transparent 78%); }
 .tile--photo p, .tile--photo-tall p { color: var(--color-plate-ink-2); }
