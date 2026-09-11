@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/fafoni-logo-trimmed.png";
 import { tagline } from "@/app/_content/home";
-import { email, links } from "@/app/_content/links";
+import { email, links, phone } from "@/app/_content/links";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -31,10 +31,15 @@ export function SiteFooter() {
               {email}
             </a>
           </li>
+          <li>
+            <a href={phone.href} className="foot__link">
+              {phone.display}
+            </a>
+          </li>
         </ul>
         <p className="foot__meta">
           <span>© {year} Fafoni. All rights reserved.</span>
-          <span>Project management training and career support.</span>
+          <span>Project management ecosystem</span>
         </p>
       </div>
     </footer>

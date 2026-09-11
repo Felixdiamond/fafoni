@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import logo from "@/public/fafoni-logo-trimmed.png";
 import { brandLine } from "@/app/_content/home";
-import { email, links } from "@/app/_content/links";
+import { email, links, phone } from "@/app/_content/links";
 
 const items = [
   { href: links.services, label: "Services" },
@@ -148,6 +148,9 @@ export function Nav({ ctaHref, ctaLabel }: Props) {
                 </a>
                 <a className="menu__mail" href={`mailto:${email}`}>
                   {email}
+                </a>
+                <a className="menu__mail" href={phone.href}>
+                  {phone.display}
                 </a>
                 <p className="menu__line">{brandLine}</p>
               </motion.div>

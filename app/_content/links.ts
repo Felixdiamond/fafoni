@@ -2,6 +2,7 @@
  *  The booking link is a placeholder until the client supplies a booking URL.
  *  The free test is a Google Form; links marked data-quiz open it in the modal. */
 export const email = "hello@fafoni.com";
+export const phone = { display: "+44 7459 627496", href: "tel:+447459627496" };
 
 export const enquiryLink = (about: string) => `mailto:${email}?subject=${encodeURIComponent(about)}`;
 
