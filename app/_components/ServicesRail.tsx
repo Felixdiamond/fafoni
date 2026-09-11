@@ -4,59 +4,22 @@ import Image, { type StaticImageData } from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { stackScale } from "./Bento";
+import type { Product } from "@/app/_content/products";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Service = {
-  readonly id: string;
-  readonly name: string;
-  readonly line: string;
-  readonly body: string;
-  readonly cite?: string;
-  readonly tone: "plate" | "paper" | "photo";
-  readonly href: string;
-};
-
 type Props = {
   title: string;
-  services: readonly Service[];
+  products: readonly (Product & { readonly href: string; readonly enquiry: string })[];
   photo: StaticImageData;
-  enquire: string;
+  photoFor: string;
+  buyLabel: string;
+  enquireLabel: string;
 };
 
-/** The journey: pinned horizontal rail on desktop (scroll drives you sideways), stacking cards on phones. */
-export function ServicesRail({ title, services, photo, enquire }: Props) {
+/** The products: pinned horizontal rail on desktop; stacking cards with a sticky journey strip on phones. */
+export function ServicesRail({ title, products, photo, photoFor, buyLabel, enquireLabel }: Props) {
   const section = useRef<HTMLElement>(null);
-
-  useEffect(() => stackScale(section.current, ".rail__panel"), []);
-
-  // Phones: the journey strip sticks under the nav and slides to whichever card is on top.
-  useEffect(() => {
-    const el = section.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const mm = gsap.matchMedia();
-    mm.add("(max-width: 59.99rem)", () => {
-      const track = el.querySelector<HTMLElement>(".journey__track");
-      const fill = el.querySelector<HTMLElement>(".journey__fill");
-      const stops = gsap.utils.toArray<HTMLElement>(".journey__stop", el);
-      const cards = gsap.utils.toArray<HTMLElement>(".rail__panel", el);
-      if (!track || stops.length === 0) return;
-      const go = (i: number) => {
-        const stop = stops[i];
-        const x = -(stop.offsetLeft - track.parentElement!.clientWidth * 0.12);
-        gsap.to(track, { x: Math.min(0, x), duration: 0.7, ease: "power3.out", overwrite: true });
-        if (fill) gsap.to(fill, { scaleX: i / Math.max(1, stops.length - 1), duration: 0.7, ease: "power3.out", overwrite: true });
-        stops.forEach((s, j) => s.classList.toggle("is-active", j === i));
-      };
-      go(0);
-      const triggers = cards.map((card, i) =>
-        ScrollTrigger.create({ trigger: card, start: "top 45%", onEnter: () => go(i), onLeaveBack: () => go(Math.max(0, i - 1)) }),
-      );
-      return () => triggers.forEach((t) => t.kill());
-    });
-    return () => mm.revert();
-  }, []);
 
   useEffect(() => {
     const el = section.current;
@@ -64,7 +27,6 @@ export function ServicesRail({ title, services, photo, enquire }: Props) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
     const mm = gsap.matchMedia();
-    // Deferred so ScrollSmoother (created by the parent) exists first.
     const call = gsap.delayedCall(0.1, () => {
       mm.add("(min-width: 60rem)", () => {
         const track = el.querySelector<HTMLElement>(".rail__track");
@@ -75,94 +37,97 @@ export function ServicesRail({ title, services, photo, enquire }: Props) {
           x: () => -distance(),
           ease: "none",
           scrollTrigger: {
-            trigger: el,
-            pin: true,
-            scrub: 0.8,
-            start: "top top",
-            end: () => `+=${distance()}`,
-            invalidateOnRefresh: true,
-            anticipatePin: 1,
-            onUpdate: (self) => {
-              if (bar) bar.style.transform = `scaleX(${self.progress})`;
-            },
+            trigger: el, pin: true, scrub: 0.8, start: "top top", end: () => `+=${distance()}`,
+            invalidateOnRefresh: true, anticipatePin: 1,
+            onUpdate: (self) => { if (bar) bar.style.transform = `scaleX(${self.progress})`; },
           },
         });
         ScrollTrigger.refresh();
         return () => tween.scrollTrigger?.kill();
       });
+
+      mm.add("(max-width: 59.99rem)", () => {
+        const cards = gsap.utils.toArray<HTMLElement>(".rail__panel", el);
+        const stops = gsap.utils.toArray<HTMLElement>(".journey__stop", el);
+        const track = el.querySelector<HTMLElement>(".journey__track");
+        const fill = el.querySelector<HTMLElement>(".journey__fill");
+        const wrap = el.querySelector<HTMLElement>(".journey");
+        if (!cards.length || !track || !wrap) return;
+        const setActive = (i: number) => {
+          stops.forEach((s, j) => s.classList.toggle("is-active", j === i));
+          const stop = stops[i];
+          const x = Math.max(0, stop.offsetLeft + stop.offsetWidth / 2 - wrap.clientWidth / 2);
+          gsap.to(track, { x: -x, duration: 0.6, ease: "power3.out", overwrite: true });
+          if (fill) gsap.to(fill, { scaleX: stops.length > 1 ? i / (stops.length - 1) : 1, duration: 0.6, ease: "power3.out", overwrite: true });
+        };
+        const triggers = cards.map((card, i) =>
+          ScrollTrigger.create({ trigger: card, start: "top 55%", onEnter: () => setActive(i), onEnterBack: () => setActive(i) }),
+        );
+        setActive(0);
+        return () => triggers.forEach((t) => t.kill());
+      });
     });
-    return () => {
-      call.kill();
-      mm.revert();
-    };
+    return () => { call.kill(); mm.revert(); };
   }, []);
 
   return (
     <section ref={section} className="rail" aria-labelledby="services-title">
       <div className="rail__head wrap">
-        <h2 id="services-title" data-split>
-          {title}
-        </h2>
-        <p className="rail__hint" aria-hidden="true">
-          01–05
-        </p>
+        <h2 id="services-title" data-split>{title}</h2>
+        <p className="rail__hint" aria-hidden="true">01–0{products.length}</p>
       </div>
+
       <div className="journey" aria-hidden="true">
-        <div className="journey__viewport">
+        <div className="journey__track">
           <span className="journey__line" />
           <span className="journey__fill" />
-          <ol className="journey__track">
-            {services.map((s, i) => (
-              <li key={s.id} className="journey__stop">
-                <span className="journey__dot" />
-                <span className="journey__n">{String(i + 1).padStart(2, "0")}</span>
-                <span className="journey__name">{s.name}</span>
-              </li>
-            ))}
-          </ol>
+          {products.map((p, i) => (
+            <span key={p.id} className="journey__stop">
+              <span className="journey__dot" />
+              <span className="journey__n">{String(i + 1).padStart(2, "0")}</span>
+              <span className="journey__name">{p.short}</span>
+            </span>
+          ))}
         </div>
       </div>
+
       <ol className="rail__track">
-        {services.map((s, i) => (
-          <li
-            key={s.id}
-            id={s.id}
-            className={`rail__panel rail__panel--${s.tone}`}
-            style={{ "--i": i } as React.CSSProperties}
-          >
-            {s.tone === "photo" ? (
-              <Image
-                className="rail__photo"
-                src={photo}
-                alt="A woman studying at a laptop at a wooden desk"
-                sizes="(min-width: 60rem) 60vw, 100vw"
-                placeholder="blur"
-              />
-            ) : null}
-            <span className="rail__n" aria-hidden="true">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <div className="rail__body">
-              <h3>{s.name}</h3>
-              <p className="rail__line">{s.line}</p>
-              <p className="rail__text">
-                {s.body}
-                {s.cite ? (
-                  <>
-                    {" "}
-                    <cite>{s.cite}</cite>.
-                  </>
-                ) : null}
-              </p>
-              <a className={`link-cta${s.tone === "paper" ? "" : " link-cta--plate"}`} href={s.href}>
-                {enquire}{" "}
-                <span className="arrow" aria-hidden="true">
-                  →
-                </span>
-              </a>
-            </div>
-          </li>
-        ))}
+        {products.map((p, i) => {
+          const hasPhoto = p.id === photoFor;
+          const tone = hasPhoto ? "photo" : i % 2 === 0 ? "plate" : "paper";
+          return (
+            <li key={p.id} id={p.id} className={`rail__panel rail__panel--${tone}`} style={{ "--i": i } as React.CSSProperties}>
+              {hasPhoto ? (
+                <Image className="rail__photo" src={photo} alt="" sizes="(min-width: 60rem) 60vw, 100vw" placeholder="blur" />
+              ) : null}
+              <span className="rail__n" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <div className="rail__body">
+                <div className="rail__top">
+                  {p.badge ? <span className="rail__badge">{p.badge}</span> : null}
+                  <h3>{p.name}</h3>
+                  <p className="rail__line">{p.line}</p>
+                </div>
+                <p className="rail__meta">
+                  <span className="rail__price">{p.price}</span>
+                  <span className="rail__dur">{p.duration}</span>
+                </p>
+                {p.priceNote ? <p className="rail__note">{p.priceNote}</p> : null}
+                <p className="rail__target">{p.target}</p>
+                <ul className="rail__includes">
+                  {p.includes.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <div className="rail__actions">
+                  <a className={`btn ${tone === "paper" ? "" : "btn--accent"} btn--lg`} href={p.href}>{buyLabel}</a>
+                  <a className={`link-cta${tone === "paper" ? "" : " link-cta--plate"}`} href={p.enquiry}>
+                    {enquireLabel} <span className="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+          );
+        })}
       </ol>
       <div className="rail__progress wrap" aria-hidden="true">
         <span className="rail__progress-bar" />

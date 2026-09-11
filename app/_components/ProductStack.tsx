@@ -13,8 +13,8 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
   const three = items.slice(0, 3);
   // Top card first in the array, rendered last so it paints on top.
   const layout = [
-    { rotate: -7, x: -34, y: 26, scale: 0.94, sx: -150, sy: 40, sr: -10 },
-    { rotate: 5, x: 26, y: 12, scale: 0.97, sx: 150, sy: 20, sr: 8 },
+    { rotate: -7, x: -34, y: 26, scale: 0.94, sx: -120, sy: 40, sr: -9 },
+    { rotate: 5, x: 26, y: 12, scale: 0.97, sx: 96, sy: 26, sr: 7 },
     { rotate: -1.5, x: 0, y: 0, scale: 1, sx: 0, sy: -14, sr: 0 },
   ];
   const order = [three[2], three[1], three[0]];

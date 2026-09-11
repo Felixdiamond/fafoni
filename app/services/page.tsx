@@ -6,9 +6,9 @@ import { ServicesHero } from "../_components/ServicesHero";
 import { Reveal } from "../_components/Reveal";
 import { ServicesRail } from "../_components/ServicesRail";
 import { closing, hero } from "../_content/home";
-import { comingSoon, enquire, services, servicesHero, servicesIntro } from "../_content/services";
+import { comingSoon, servicesHero, servicesIntro } from "../_content/services";
 import { enquiryLink, links } from "../_content/links";
-import { products } from "../_content/products";
+import { buyLabel, enquireLabel, products } from "../_content/products";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -29,9 +29,11 @@ export default function ServicesPage() {
 
       <ServicesRail
         title={servicesIntro}
-        services={services.map((s) => ({ ...s, href: enquiryLink(s.name) }))}
+        products={products.map((p) => ({ ...p, href: links.bookConsultation, enquiry: enquiryLink(p.name) }))}
         photo={laptopPhoto}
-        enquire={enquire}
+        photoFor="programme"
+        buyLabel={buyLabel}
+        enquireLabel={enquireLabel}
       />
 
       {/* Coming soon · giant slow marquee on navy */}
