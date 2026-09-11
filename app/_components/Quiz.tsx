@@ -20,14 +20,13 @@ const remembered = () => {
 
 type Props = { src: string; label: string; title: string; note: string };
 
-/** The free-test modal. Opens after 30 s on any page, or from any link marked data-quiz.
+/** The free-test modal (Tally form). Opens after 30 s on any page, or from any link marked data-quiz.
  *  Dismissed or submitted → stays away for the rest of the session. Full-screen under 768 px. */
 export function Quiz({ src, label, title, note }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const loads = useRef(0);
 
   const show = useCallback(() => {
     setMounted(true);
@@ -84,14 +83,16 @@ export function Quiz({ src, label, title, note }: Props) {
     dismiss();
   };
 
-  // The form's iframe loads once for the questions and again for Google's "response recorded" page.
-  const onLoad = () => {
-    loads.current += 1;
-    if (loads.current >= 2 && !submitted) {
+  // Tally tells the parent page when the form is submitted.
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (typeof e.data !== "string" || !e.data.includes("Tally.FormSubmitted")) return;
       setSubmitted(true);
       remember("submitted");
-    }
-  };
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   return (
     <dialog
@@ -117,7 +118,7 @@ export function Quiz({ src, label, title, note }: Props) {
         </header>
         <div className="quiz__body">
           {mounted ? (
-            <iframe className="quiz__frame" src={src} title={title} onLoad={onLoad} loading="eager" />
+            <iframe className="quiz__frame" src={src} title={title} loading="eager" />
           ) : null}
         </div>
         <p className="quiz__note">{submitted ? "We’ll be in touch with your results and next steps." : note}</p>
