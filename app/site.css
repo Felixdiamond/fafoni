@@ -435,15 +435,17 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
 @media (max-width: 59.99rem) {
   .phero__grid .phero__text, .phero__grid .phero__aside { display: contents; }
   .phero__grid > h1, .phero__text > h1 { order: 1; }
-  .phero__grid .pstack { order: 2; height: 13rem; margin-block: 0; }
+  .phero__grid .pstack { order: 2; height: 12.5rem; margin-block: var(--space-sm) var(--space-md); }
   .phero__grid .phero__actions { order: 3; }
   .phero__grid .phero__lede { order: 4; font-size: var(--text-base); color: var(--color-muted); max-width: 44ch; }
   .phero__grid { gap: var(--space-md); padding-top: calc(var(--bar-h) + var(--space-md)); }
   .phero__grid h1 { font-size: clamp(2.2rem, 9.2vw, 2.8rem); }
-  .pcard { width: min(100%, 17rem); padding: var(--space-md) var(--space-lg); gap: var(--space-2xs); }
-  .pcard__name { font-size: var(--text-md); }
-  .pcard__line { font-size: var(--text-sm); }
-  .pcard__price { font-size: var(--text-lg); }
+  .pcard { width: min(100%, 17rem); padding: var(--space-sm) var(--space-md); gap: var(--space-3xs); }
+  .pcard__name { font-size: var(--text-base); line-height: 1.15; }
+  .pcard__line { display: none; }
+  .pcard__meta { margin-top: 0; padding-top: var(--space-xs); }
+  .pcard__price { font-size: var(--text-md); }
+  .pcard__badge { font-size: 0.66rem; }
 }
 @media (max-width: 59.99rem) {
   .phero__grid { gap: var(--space-2xl); padding-block: calc(var(--bar-h) + var(--space-xl)) var(--space-2xl); }
