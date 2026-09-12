@@ -9,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 import teamPhoto from "@/public/photos/pexels-8117476.jpg";
 import laptopPhoto from "@/public/photos/pexels-9429373.jpg";
+import { TileArt } from "./TileArt";
 
 type Tone = "photo-tall" | "photo" | "plate" | "accent";
 type Tile = { readonly title: string; readonly body: string; readonly tone: Tone };
@@ -19,6 +20,12 @@ const photos: Record<string, { src: StaticImageData; alt: string }> = {
 };
 
 const ease = [0.16, 1, 0.3, 1] as const;
+
+const art: Record<string, "training" | "guidance" | "career"> = {
+  "Industry-relevant training": "training",
+  "Expert guidance": "guidance",
+  "Career support": "career",
+};
 
 /** Phones: as each sticky card slides over the previous one, the one underneath settles back a touch. */
 export function stackScale(root: HTMLElement | null, selector: string) {
@@ -77,6 +84,7 @@ function TileItem({ tile, index }: { tile: Tile; index: number }) {
     <motion.li
       ref={liRef}
       className={`tile tile--${tile.tone}`}
+      data-state={state}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
       style={{ ...(photo ? { rotateX, rotateY, transformPerspective: 1000 } : {}), "--i": index } as never}
@@ -100,6 +108,7 @@ function TileItem({ tile, index }: { tile: Tile; index: number }) {
           fetchPriority="low"
         />
       ) : null}
+      {!photo ? <TileArt kind={art[tile.title] ?? "career"} /> : null}
       <div className="tile__body">
         <h3>{tile.title}</h3>
         <p>{tile.body}</p>
