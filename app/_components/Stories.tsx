@@ -86,6 +86,11 @@ export function Stories({ items }: { items: readonly Story[] }) {
       <div className="stories__rail" ref={rail}>
         {items.map((story, i) => (
           <Reveal as="figure" className="story" key={story.name} delay={i * 0.08}>
+            {story.photo ? (
+              <span className="story__photo" aria-hidden="true">
+                <Image src={story.photo} alt="" sizes="(max-width: 60rem) 84vw, 0px" />
+              </span>
+            ) : null}
             <span className="story__mark" aria-hidden="true">
               “
             </span>
