@@ -264,8 +264,7 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
   .marquee__track[aria-hidden="true"] { display: none; }
 }
 
-/* split headings wait for GSAP (html.js is set before paint) */
-.js [data-split] { visibility: hidden; }
+/* Headings and reveals render visible; the scripts only animate what is still below the fold when they run. */
 
 /* ---------- section heads ---------- */
 .sec__head { display: grid; gap: var(--space-sm); max-width: 44rem; padding-bottom: var(--space-xl); }

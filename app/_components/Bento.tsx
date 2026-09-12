@@ -2,7 +2,7 @@
 
 import Image, { type StaticImageData } from "next/image";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
-import { useEffect, useRef, type PointerEvent } from "react";
+import { useEffect, useRef, type PointerEvent, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -44,6 +44,13 @@ export function stackScale(root: HTMLElement | null, selector: string) {
 function TileItem({ tile, index }: { tile: Tile; index: number }) {
   const reduce = useReducedMotion();
   const photo = tile.tone.startsWith("photo") ? photos[tile.title] : undefined;
+  const liRef = useRef<HTMLLIElement>(null);
+  const [state, setState] = useState<"in" | "out">("in");
+  useEffect(() => {
+    if (reduce) return;
+    const el = liRef.current;
+    if (el && el.getBoundingClientRect().top > window.innerHeight * 0.92) setState("out");
+  }, [reduce]);
   const rx = useMotionValue(0);
   const ry = useMotionValue(0);
   const rotateX = useSpring(rx, { stiffness: 180, damping: 22 });
@@ -68,14 +75,19 @@ function TileItem({ tile, index }: { tile: Tile; index: number }) {
 
   return (
     <motion.li
+      ref={liRef}
       className={`tile tile--${tile.tone}`}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
       style={{ ...(photo ? { rotateX, rotateY, transformPerspective: 1000 } : {}), "--i": index } as never}
-      initial={reduce ? false : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={false}
+      animate={state}
+      variants={{
+        out: { opacity: 0, y: 24, transition: { duration: 0 } },
+        in: { opacity: 1, y: 0, transition: { duration: 0.7, delay: index * 0.08, ease } },
+      }}
+      onViewportEnter={() => setState("in")}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.7, delay: index * 0.08, ease }}
     >
       {photo ? (
         <Image
@@ -84,6 +96,8 @@ function TileItem({ tile, index }: { tile: Tile; index: number }) {
           alt={photo.alt}
           sizes="(min-width: 60rem) 420px, (min-width: 40rem) 50vw, 82vw"
           placeholder="blur"
+          loading="eager"
+          fetchPriority="low"
         />
       ) : null}
       <div className="tile__body">

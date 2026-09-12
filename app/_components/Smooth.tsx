@@ -23,18 +23,20 @@ export function Smooth({ children }: { children: ReactNode }) {
         ? null
         : ScrollSmoother.create({ wrapper: "#smooth-wrapper", content: "#smooth-content", smooth: 1.1, effects: true, smoothTouch: forceTouch ? 1.1 : false });
 
-      // Headings: split into masked lines that rise in once.
+      // Headings: split into masked lines that rise in once. If the script arrived late (slow network),
+      // headings already on screen are shown as they are rather than snapping hidden and re-entering.
+      const onScreen = (el: Element) => {
+        const r = el.getBoundingClientRect();
+        return r.bottom > 0 && r.top < window.innerHeight;
+      };
       document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
-        if (reduce) {
-          el.style.visibility = "visible";
-          return;
-        }
+        if (onScreen(el)) return; // already visible: leave it, no flash
+        if (reduce) return;
         SplitText.create(el, {
           type: "lines",
           mask: "lines",
           autoSplit: true,
           onSplit: (self) => {
-            gsap.set(el, { visibility: "visible" });
             const scrub = el.dataset.split === "scrub";
             return gsap.from(self.lines, {
               yPercent: 110,
