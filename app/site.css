@@ -430,6 +430,21 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
 .phero { background: var(--color-paper); color: var(--color-ink); }
 .phero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); padding-block: calc(var(--bar-h) + var(--space-2xl)) var(--space-lg); }
 .phero__text { display: grid; gap: var(--space-lg); }
+.hl { background-image: linear-gradient(var(--color-accent), var(--color-accent)); background-repeat: no-repeat; background-position: 0 92%; background-size: 0% 0.08em; padding-bottom: 0.02em; animation: hl-sweep 0.9s var(--ease-out) 1.3s forwards; }
+@keyframes hl-sweep { to { background-size: 100% 0.08em; } }
+@media (max-width: 59.99rem) {
+  .phero__grid .phero__text, .phero__grid .phero__aside { display: contents; }
+  .phero__grid > h1, .phero__text > h1 { order: 1; }
+  .phero__grid .pstack { order: 2; height: 13rem; margin-block: 0; }
+  .phero__grid .phero__actions { order: 3; }
+  .phero__grid .phero__lede { order: 4; font-size: var(--text-base); color: var(--color-muted); max-width: 44ch; }
+  .phero__grid { gap: var(--space-md); padding-top: calc(var(--bar-h) + var(--space-md)); }
+  .phero__grid h1 { font-size: clamp(2.2rem, 9.2vw, 2.8rem); }
+  .pcard { width: min(100%, 17rem); padding: var(--space-md) var(--space-lg); gap: var(--space-2xs); }
+  .pcard__name { font-size: var(--text-md); }
+  .pcard__line { font-size: var(--text-sm); }
+  .pcard__price { font-size: var(--text-lg); }
+}
 @media (max-width: 59.99rem) {
   .phero__grid { gap: var(--space-2xl); padding-block: calc(var(--bar-h) + var(--space-xl)) var(--space-2xl); }
   .phero .route-wrap { display: none; }
@@ -439,7 +454,7 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
 }
 .phero h1 { font-size: var(--text-display); max-width: 14ch; line-height: 1.0; letter-spacing: -0.03em; }
 @media (max-width: 59.99rem) { .phero h1 { font-size: clamp(2.8rem, 12.5vw, 4rem); max-width: none; text-wrap: pretty; line-height: 0.98; } }
-@media (max-width: 59.99rem) and (max-height: 44rem) { .phero h1 { font-size: clamp(2.4rem, 10.5vw, 3rem); } .phero__grid { gap: var(--space-lg); padding-block: calc(var(--bar-h) + var(--space-md)) var(--space-xl); } .phero__lede { font-size: 0.95rem; max-width: 42ch; } }
+@media (max-width: 59.99rem) and (max-height: 56rem) { .phero h1 { font-size: clamp(2.4rem, 10.5vw, 3rem); } .phero__grid { gap: var(--space-lg); padding-block: calc(var(--bar-h) + var(--space-md)) var(--space-xl); } .phero__lede { font-size: 0.95rem; max-width: 42ch; } }
 .phero__aside { display: grid; gap: var(--space-lg); align-content: end; }
 .phero__lede { font-size: var(--text-md); line-height: 1.55; color: var(--color-ink-2); max-width: 40ch; text-wrap: pretty; }
 .phero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); }

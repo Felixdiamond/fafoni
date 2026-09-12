@@ -13,13 +13,23 @@ type Props = {
 };
 
 /** Ivory typographic hero: statement top-left, paragraph and actions right, the journey line beneath. */
+const highlight = "every stage";
+
 export function ServicesHero({ title, lede, primary, secondary, stops, products }: Props) {
   return (
     <section className="phero" aria-labelledby="hero-title">
       <div className="wrap phero__grid">
         <div className="phero__text">
           <h1 id="hero-title" data-split>
-            {title}
+            {title.includes(highlight) ? (
+              <>
+                {title.split(highlight)[0]}
+                <span className="hl">{highlight}</span>
+                {title.split(highlight)[1]}
+              </>
+            ) : (
+              title
+            )}
           </h1>
           <div className="phero__aside">
           <Reveal as="p" className="phero__lede" delay={0.5} eager>
