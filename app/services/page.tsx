@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import closingPhoto from "@/public/photos/closing-team.jpg";
-import laptopPhoto from "@/public/photos/pexels-9429373.jpg";
 import { Closing } from "../_components/Closing";
 import { ServicesHero } from "../_components/ServicesHero";
 import { Reveal } from "../_components/Reveal";
@@ -33,8 +32,6 @@ export default function ServicesPage() {
       <ServicesRail
         title={servicesIntro}
         products={products.map((p) => ({ ...p, href: links.bookConsultation, enquiry: enquiryLink(p.name) }))}
-        photo={laptopPhoto}
-        photoFor="programme"
         buyLabel={buyLabel}
         enquireLabel={enquireLabel}
       />

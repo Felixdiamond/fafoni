@@ -1,6 +1,5 @@
 "use client";
 
-import Image, { type StaticImageData } from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,14 +10,12 @@ gsap.registerPlugin(ScrollTrigger);
 type Props = {
   title: string;
   products: readonly (Product & { readonly href: string; readonly enquiry: string })[];
-  photo: StaticImageData;
-  photoFor: string;
   buyLabel: string;
   enquireLabel: string;
 };
 
 /** The products: pinned horizontal rail on desktop; stacking cards with a sticky journey strip on phones. */
-export function ServicesRail({ title, products, photo, photoFor, buyLabel, enquireLabel }: Props) {
+export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props) {
   const section = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -93,34 +90,30 @@ export function ServicesRail({ title, products, photo, photoFor, buyLabel, enqui
 
       <ol className="rail__track">
         {products.map((p, i) => {
-          const hasPhoto = p.id === photoFor;
-          const tone = hasPhoto ? "photo" : i % 2 === 0 ? "plate" : "paper";
+          const featured = Boolean(p.badge);
           return (
-            <li key={p.id} id={p.id} className={`rail__panel rail__panel--${tone}`} style={{ "--i": i } as React.CSSProperties}>
-              {hasPhoto ? (
-                <Image className="rail__photo" src={photo} alt="" sizes="(min-width: 60rem) 60vw, 100vw" placeholder="blur" />
-              ) : null}
-              <span className="rail__n" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <li key={p.id} id={p.id} className={`rail__panel${featured ? " rail__panel--featured" : ""}`}>
               <div className="rail__body">
-                <div className="rail__top">
-                  {p.badge ? <span className="rail__badge">{p.badge}</span> : null}
-                  <h3>{p.name}</h3>
-                  <p className="rail__line">{p.line}</p>
-                </div>
+                <span className="rail__index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                {p.badge ? <span className="rail__badge">{p.badge}</span> : null}
+                <h3>{p.name}</h3>
+                <p className="rail__line">{p.line}</p>
                 <p className="rail__meta">
                   <span className="rail__price">{p.price}</span>
                   <span className="rail__dur">{p.duration}</span>
                 </p>
                 {p.priceNote ? <p className="rail__note">{p.priceNote}</p> : null}
-                <p className="rail__target">{p.target}</p>
                 <ul className="rail__includes">
                   {p.includes.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
+                <p className="rail__target">
+                  <span className="rail__target-label">For</span> {p.target}
+                </p>
                 <div className="rail__actions">
-                  <a className={`btn ${tone === "paper" ? "" : "btn--accent"} btn--lg`} href={p.href}>{buyLabel}</a>
-                  <a className={`link-cta${tone === "paper" ? "" : " link-cta--plate"}`} href={p.enquiry}>
+                  <a className={`btn btn--lg${featured ? " btn--accent" : ""}`} href={p.href}>{buyLabel}</a>
+                  <a className={`link-cta${featured ? " link-cta--plate" : ""}`} href={p.enquiry}>
                     {enquireLabel} <span className="arrow" aria-hidden="true">→</span>
                   </a>
                 </div>
