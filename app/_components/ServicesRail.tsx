@@ -60,8 +60,25 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
         const triggers = cards.map((card, i) =>
           ScrollTrigger.create({ trigger: card, start: "top 55%", onEnter: () => setActive(i), onEnterBack: () => setActive(i) }),
         );
+        // While the strip is stuck to the top, the site nav steps aside so only one bar is up there.
+        const root = document.documentElement;
+        const hideNav = (on: boolean) => root.toggleAttribute("data-hide-nav", on);
+        const navTrigger = ScrollTrigger.create({
+          trigger: wrap,
+          start: "top top",
+          endTrigger: el.querySelector<HTMLElement>(".rail__track") ?? el,
+          end: "bottom top+=1",
+          onEnter: () => hideNav(true),
+          onEnterBack: () => hideNav(true),
+          onLeave: () => hideNav(false),
+          onLeaveBack: () => hideNav(false),
+        });
         setActive(0);
-        return () => triggers.forEach((t) => t.kill());
+        return () => {
+          triggers.forEach((t) => t.kill());
+          navTrigger.kill();
+          hideNav(false);
+        };
       });
     });
     return () => { call.kill(); mm.revert(); };
