@@ -45,17 +45,27 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
 
       mm.add("(max-width: 59.99rem)", () => {
         const cards = gsap.utils.toArray<HTMLElement>(".rail__panel", el);
-        const stops = gsap.utils.toArray<HTMLElement>(".journey__stop", el);
-        const track = el.querySelector<HTMLElement>(".journey__track");
-        const fill = el.querySelector<HTMLElement>(".journey__fill");
+        const segs = gsap.utils.toArray<HTMLElement>(".journey__seg", el);
         const wrap = el.querySelector<HTMLElement>(".journey");
-        if (!cards.length || !track || !wrap) return;
+        const title = el.querySelector<HTMLElement>(".journey__title");
+        const current = el.querySelector<HTMLElement>(".journey__current");
+        const price = el.querySelector<HTMLElement>(".journey__price");
+        if (!cards.length || !wrap || !title) return;
+        let last = -1;
         const setActive = (i: number) => {
-          stops.forEach((s, j) => s.classList.toggle("is-active", j === i));
-          const stop = stops[i];
-          const x = Math.max(0, stop.offsetLeft + stop.offsetWidth / 2 - wrap.clientWidth / 2);
-          gsap.to(track, { x: -x, duration: 0.6, ease: "power3.out", overwrite: true });
-          if (fill) gsap.to(fill, { scaleX: stops.length > 1 ? i / (stops.length - 1) : 1, duration: 0.6, ease: "power3.out", overwrite: true });
+          if (i === last) return;
+          last = i;
+          segs.forEach((seg, j) => seg.classList.toggle("is-done", j <= i));
+          segs.forEach((seg, j) => seg.classList.toggle("is-active", j === i));
+          const seg = segs[i];
+          gsap.timeline()
+            .to([title, price], { opacity: 0, y: -4, duration: 0.18, ease: "power2.in" })
+            .add(() => {
+              title.textContent = seg.dataset.name ?? "";
+              if (price) price.textContent = seg.dataset.price ?? "";
+              if (current) current.textContent = String(i + 1).padStart(2, "0");
+            })
+            .to([title, price], { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" });
         };
         const triggers = cards.map((card, i) =>
           ScrollTrigger.create({ trigger: card, start: "top 55%", onEnter: () => setActive(i), onEnterBack: () => setActive(i) }),
@@ -92,15 +102,16 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
       </div>
 
       <div className="journey" aria-hidden="true">
-        <div className="journey__track">
-          <span className="journey__line" />
-          <span className="journey__fill" />
+        <div className="journey__meta">
+          <span className="journey__count">
+            <span className="journey__current">01</span> / {String(products.length).padStart(2, "0")}
+          </span>
+          <span className="journey__price">{products[0].price} · {products[0].duration}</span>
+        </div>
+        <p className="journey__title">{products[0].name}</p>
+        <div className="journey__bar">
           {products.map((p, i) => (
-            <span key={p.id} className="journey__stop">
-              <span className="journey__dot" />
-              <span className="journey__n">{String(i + 1).padStart(2, "0")}</span>
-              <span className="journey__name">{p.short}</span>
-            </span>
+            <a key={p.id} href={`#${p.id}`} className="journey__seg" data-i={i} data-name={p.name} data-price={`${p.price} · ${p.duration}`} tabIndex={-1} />
           ))}
         </div>
       </div>

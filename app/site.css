@@ -502,21 +502,23 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
   .hero__index-link { font-size: var(--text-lg); padding-block: var(--space-md); }
 }
 
-/* ---------- services · journey strip (phones) · sticks under the nav, slides to the active card ---------- */
-:root { --journey-h: 5.75rem; }
-.journey { position: sticky; top: 0; z-index: 5; height: var(--journey-h); padding-top: max(0.5rem, env(safe-area-inset-top)); background: var(--color-plate); padding-inline: var(--page-gutter); border-bottom: var(--rule-hair) solid var(--color-plate-rule); }
-.journey__viewport { position: relative; height: var(--journey-h); overflow: clip; -webkit-mask-image: linear-gradient(90deg, black 80%, transparent); mask-image: linear-gradient(90deg, black 80%, transparent); }
-.journey__line, .journey__fill { position: absolute; top: 1.4rem; inset-inline-start: 0; width: 100%; height: 1px; background: var(--color-plate-rule); }
-.journey__fill { background: var(--color-accent); transform: scaleX(0); transform-origin: left; z-index: 1; }
-.journey__track { position: absolute; top: 0; inset-inline-start: 0; list-style: none; margin: 0; padding: 0; display: flex; width: max-content; will-change: transform; }
-.journey__stop { position: relative; width: 58vw; max-width: 18rem; padding-top: 2rem; display: grid; gap: 0.15rem; color: var(--color-plate-muted); transition: color var(--dur-short) var(--ease-out); }
-.journey__name { opacity: 0; transform: translateY(4px); transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out); }
-.journey__stop.is-active .journey__name { opacity: 1; transform: none; }
-.journey__stop.is-active { color: var(--color-plate-ink); }
-.journey__dot { position: absolute; top: 1rem; inset-inline-start: 0; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--color-plate-rule); box-shadow: 0 0 0 3px var(--color-plate); transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out); }
-.journey__stop.is-active .journey__dot { background: var(--color-accent); transform: scale(1.3); }
-.journey__n { font-size: var(--text-sm); font-weight: 500; letter-spacing: 0.08em; color: var(--color-accent); font-variant-numeric: tabular-nums; }
-.journey__name { font-family: var(--font-display); font-weight: 700; font-size: var(--text-base); line-height: 1.15; white-space: nowrap; width: max-content; max-width: 80vw; color: var(--color-plate-ink); }
+/* ---------- services · journey strip (phones) · step header stuck to the top while the cards scroll ---------- */
+:root { --journey-h: 6.25rem; }
+.journey {
+  position: sticky; top: 0; z-index: 5; height: var(--journey-h);
+  display: grid; align-content: center; gap: var(--space-2xs);
+  padding: max(0.5rem, env(safe-area-inset-top)) var(--page-gutter) var(--space-sm);
+  background: var(--color-plate-0); color: var(--color-plate-ink);
+  border-bottom: var(--rule-hair) solid var(--color-plate-rule);
+}
+.journey__meta { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-md); font-size: var(--text-sm); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-plate-muted); }
+.journey__current { color: var(--color-accent); font-weight: 500; }
+.journey__price { color: var(--color-plate-ink-2); letter-spacing: 0.04em; white-space: nowrap; }
+.journey__title { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); line-height: 1.15; color: var(--color-plate-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.journey__bar { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0.3rem; padding-top: var(--space-2xs); }
+.journey__seg { display: block; height: 4px; border-radius: 999px; background: var(--color-plate-rule); transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out); }
+.journey__seg.is-done { background: var(--color-accent); }
+.journey__seg.is-active { transform: scaleY(1.6); }
 @media (min-width: 60rem) { .journey { display: none; } }
 
 /* ---------- services · the rail (pinned horizontal on desktop, stacked on phones) ---------- */
