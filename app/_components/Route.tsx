@@ -18,7 +18,8 @@ export function Route({ stops }: { stops: readonly Stop[] }) {
     const outer = wrap.current;
     if (!el || !outer || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
-      const intro = gsap.timeline({ delay: 0.6, defaults: { ease: "power3.out" } });
+      // Draws on when the line scrolls into view; it sits below the fold on desktop now.
+      const intro = gsap.timeline({ defaults: { ease: "power3.out" }, scrollTrigger: { trigger: el, start: "top 88%", once: true } });
       intro
         .fromTo(".route__line", { scaleX: 0, scaleY: 0 }, { scaleX: 1, scaleY: 1, duration: 1.4, ease: "power4.inOut" })
         .fromTo(".route__dot", { scale: 0 }, { scale: 1, duration: 0.5, stagger: 0.12 }, 0.5)

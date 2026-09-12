@@ -112,6 +112,7 @@ export function Smooth({ children }: { children: ReactNode }) {
     });
     const onLoad = () => ScrollTrigger.refresh();
     window.addEventListener("load", onLoad);
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
     return () => {
       window.removeEventListener("load", onLoad);
       ctx.revert();
