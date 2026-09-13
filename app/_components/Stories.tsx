@@ -1,5 +1,6 @@
 "use client";
 
+import gsap from "gsap";
 import Image, { type StaticImageData } from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
@@ -24,6 +25,7 @@ const initials = (name: string) =>
 export function Stories({ items }: { items: readonly Story[] }) {
   const rail = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
   const paused = useRef(false);
   const resume = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -42,6 +44,7 @@ export function Stories({ items }: { items: readonly Story[] }) {
         cards.forEach((c, i) => {
           if (Math.abs(c.offsetLeft + c.offsetWidth / 2 - x) < Math.abs(cards[best].offsetLeft + cards[best].offsetWidth / 2 - x)) best = i;
         });
+        activeRef.current = best;
         setActive(best);
         ticking = false;
       });
@@ -50,36 +53,55 @@ export function Stories({ items }: { items: readonly Story[] }) {
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Auto-advance on phones every 5.5 s; a touch pauses it, and it resumes after 9 s of quiet.
+  // Auto-advance on phones every 5 s; a touch pauses it, and it resumes after 7 s of quiet.
+  // The move is a tween of scrollLeft with snapping switched off for its duration: Safari ignores or
+  // fights smooth scrollTo() inside a mandatory-snap container, which is why the old version stood still on iPhones.
   useEffect(() => {
     const el = rail.current;
     if (!el) return;
     const mobile = window.matchMedia("(max-width: 59.99rem)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!mobile.matches || reduce) return;
+    let tween: gsap.core.Tween | null = null;
+    const settle = () => {
+      tween?.kill();
+      tween = null;
+      el.style.scrollSnapType = "";
+    };
     const pause = () => {
+      settle();
       paused.current = true;
       if (resume.current) clearTimeout(resume.current);
-      resume.current = setTimeout(() => (paused.current = false), 9000);
+      resume.current = setTimeout(() => (paused.current = false), 7000);
     };
     el.addEventListener("pointerdown", pause, { passive: true });
     el.addEventListener("touchstart", pause, { passive: true });
     const tick = setInterval(() => {
-      if (paused.current || document.hidden) return;
+      if (paused.current || document.hidden || tween) return;
       const cards = Array.from(el.children) as HTMLElement[];
       if (!cards.length) return;
       const rect = el.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > window.innerHeight) return; // only while on screen
-      const next = cards[(active + 1) % cards.length];
-      el.scrollTo({ left: next.offsetLeft - parseFloat(getComputedStyle(el).paddingLeft || "0"), behavior: "smooth" });
-    }, 5500);
+      const next = cards[(activeRef.current + 1) % cards.length];
+      const left = next.offsetLeft - parseFloat(getComputedStyle(el).paddingLeft || "0");
+      el.style.scrollSnapType = "none";
+      const pos = { x: el.scrollLeft };
+      tween = gsap.to(pos, {
+        x: left,
+        duration: 0.7,
+        ease: "power2.inOut",
+        onUpdate: () => (el.scrollLeft = pos.x),
+        onComplete: settle,
+      });
+    }, 5000);
     return () => {
       clearInterval(tick);
+      settle();
       el.removeEventListener("pointerdown", pause);
       el.removeEventListener("touchstart", pause);
       if (resume.current) clearTimeout(resume.current);
     };
-  }, [active]);
+  }, []);
 
   return (
     <div className="stories__list">
