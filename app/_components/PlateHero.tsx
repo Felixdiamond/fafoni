@@ -50,7 +50,7 @@ export function PlateHero({ title, lede, primary, secondary, index }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: wordDelay + 0.15 + words.length * 0.06, ease }}
         >
-          <a className="btn btn--accent" href={primary.href}>
+          <a className="btn btn--accent" href={primary.href} data-enquiry>
             {primary.label}
           </a>
           <a className="link-cta link-cta--plate" href={secondary.href} data-quiz>

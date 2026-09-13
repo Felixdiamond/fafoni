@@ -1,34 +1,43 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { FormConfig, FormKind } from "@/app/_content/links";
 
-type Props = { src: string; label: string; title: string; note: string };
+type Props = { forms: Record<FormKind, FormConfig> };
 
-/** The free-test modal (the client's Tally form). Opens only from links marked data-quiz; there is no timed
- *  pop-up (client decision, 13 Sep 2026). Full-screen under 768 px. */
-export function Quiz({ src, label, title, note }: Props) {
+/** The form modal (the client's Tally forms). Opens only from links marked data-quiz or data-enquiry; there is
+ *  no timed pop-up (client decision, 13 Sep 2026). Full-screen under 768 px. */
+export function Quiz({ forms }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [kind, setKind] = useState<FormKind>("quiz");
+  const [src, setSrc] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const form = forms[kind];
 
-  const show = useCallback(() => {
-    setMounted(true);
-    setOpen(true);
-    const d = dialog.current;
-    if (d && !d.open) {
-      d.showModal();
-      document.documentElement.style.overflow = "hidden";
-    }
-  }, []);
+  const show = useCallback(
+    (next: FormKind, query: string) => {
+      const embed = forms[next].embed + (query ? "&" + query.replace(/^\?/, "") : "");
+      if (embed !== src) setSubmitted(false);
+      setKind(next);
+      setSrc(embed);
+      setOpen(true);
+      const d = dialog.current;
+      if (d && !d.open) {
+        d.showModal();
+        document.documentElement.style.overflow = "hidden";
+      }
+    },
+    [forms, src],
+  );
 
-  // Any "Take a free test" link opens the modal instead of leaving the page.
+  // Free test and consultation / enquiry links open the modal instead of leaving the page.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-quiz]");
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-quiz], a[data-enquiry]");
       if (!a || e.metaKey || e.ctrlKey) return;
       e.preventDefault();
-      show();
+      show(a.hasAttribute("data-enquiry") ? "enquiry" : "quiz", new URL(a.href).search);
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
@@ -56,7 +65,7 @@ export function Quiz({ src, label, title, note }: Props) {
     dismiss();
   };
 
-  // Tally tells the parent page when the form is submitted.
+  // Tally tells the parent page when a form is submitted.
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
       if (e.origin !== "https://tally.so") return;
@@ -71,6 +80,7 @@ export function Quiz({ src, label, title, note }: Props) {
     <dialog
       ref={dialog}
       className="quiz"
+      data-form={kind}
       aria-labelledby="quiz-title"
       onClose={onNativeClose}
       onClick={(e) => {
@@ -80,19 +90,19 @@ export function Quiz({ src, label, title, note }: Props) {
       <div className="quiz__panel">
         <header className="quiz__head">
           <div className="quiz__titles">
-            <p className="quiz__label">{submitted ? "Thank you" : label}</p>
-            <h2 id="quiz-title" className="quiz__title">{submitted ? "We’ve got your details." : title}</h2>
+            <p className="quiz__label">{submitted ? "Thank you" : form.label}</p>
+            <h2 id="quiz-title" className="quiz__title">
+              {submitted ? "We’ve got your details." : form.title}
+            </h2>
           </div>
           <button type="button" className="quiz__close" onClick={dismiss} aria-label="Close">
             <span aria-hidden="true" />
           </button>
         </header>
         <div className="quiz__body">
-          {mounted ? (
-            <iframe className="quiz__frame" src={src} title={title} loading="eager" />
-          ) : null}
+          {src ? <iframe className="quiz__frame" src={src} title={form.title} loading="eager" /> : null}
         </div>
-        <p className="quiz__note">{submitted ? "We’ll be in touch shortly." : note}</p>
+        <p className="quiz__note">{submitted ? form.done : form.note}</p>
       </div>
     </dialog>
   );

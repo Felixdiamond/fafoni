@@ -24,7 +24,7 @@ export function Closing({ photo, statement, body, primary, secondary }: Props) {
           <div className="close__stack">
             <p className="close__body">{body}</p>
             <div className="close__actions">
-            <a className="btn btn--accent btn--lg" href={primary.href}>
+            <a className="btn btn--accent btn--lg" href={primary.href} data-enquiry>
               {primary.label}
             </a>
             <a className="link-cta link-cta--plate" href={secondary.href} data-quiz>

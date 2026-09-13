@@ -36,7 +36,7 @@ export function ServicesHero({ title, lede, primary, secondary, stops, products 
             {lede}
           </Reveal>
           <Reveal className="phero__actions" delay={0.65} eager>
-            <a className="btn" href={primary.href}>
+            <a className="btn" href={primary.href} data-enquiry>
               {primary.label}
             </a>
             <a className="link-cta" href={secondary.href} data-quiz>

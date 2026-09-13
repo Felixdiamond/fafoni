@@ -3,7 +3,7 @@ import { IBM_Plex_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 import { Nav } from "./_components/Nav";
 import { hero } from "./_content/home";
-import { links, quiz } from "./_content/links";
+import { forms, links } from "./_content/links";
 import { SiteFooter } from "./_components/SiteFooter";
 import { Smooth } from "./_components/Smooth";
 import { Quiz } from "./_components/Quiz";
@@ -50,7 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
           <SiteFooter />
         </Smooth>
-        <Quiz src={quiz.embed} label={quiz.label} title={quiz.title} note={quiz.note} />
+        <Quiz forms={forms} />
       </body>
     </html>
   );

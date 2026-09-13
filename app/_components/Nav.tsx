@@ -92,7 +92,7 @@ export function Nav({ ctaHref, ctaLabel }: Props) {
               ))}
             </ul>
           </nav>
-          <a className="btn btn--accent nav__cta" href={ctaHref}>
+          <a className="btn btn--accent nav__cta" href={ctaHref} data-enquiry>
             {ctaLabel}
           </a>
           <Link href={links.services} className="nav__quick" aria-current={current(links.services)}>
@@ -146,7 +146,7 @@ export function Nav({ ctaHref, ctaLabel }: Props) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.55, ease }}
               >
-                <a className="btn btn--accent btn--lg" href={ctaHref} onClick={close}>
+                <a className="btn btn--accent btn--lg" href={ctaHref} onClick={close} data-enquiry>
                   {ctaLabel}
                 </a>
                 <a className="menu__mail" href={`mailto:${email}`}>

@@ -138,8 +138,8 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
                   <span className="rail__target-label">For</span> {p.target}
                 </p>
                 <div className="rail__actions">
-                  <a className={`btn btn--lg${featured ? " btn--accent" : ""}`} href={p.href}>{buyLabel}</a>
-                  <a className={`link-cta${featured ? " link-cta--plate" : ""}`} href={p.enquiry}>
+                  <a className={`btn btn--lg${featured ? " btn--accent" : ""}`} href={p.href} data-enquiry>{buyLabel}</a>
+                  <a className={`link-cta${featured ? " link-cta--plate" : ""}`} href={p.enquiry} data-enquiry>
                     {enquireLabel} <span className="arrow" aria-hidden="true">→</span>
                   </a>
                 </div>
