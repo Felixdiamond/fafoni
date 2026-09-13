@@ -22,7 +22,10 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
   const n = three.length;
   // Swiping left deals the top card away; swiping right brings the previous one back.
   // A manual deal restarts the auto-deal clock so the deck never deals again a moment later.
+  // True once the deck has dealt at all: the entrance stagger must never delay a deal.
+  const [dealt, setDealt] = useState(false);
   const deal = (dir: 1 | -1) => {
+    setDealt(true);
     setOffset((o) => (o + n + dir) % n);
     restartAuto.current();
   };
@@ -48,7 +51,10 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
     const start = () => {
       clearInterval(tick);
       tick = window.setInterval(() => {
-        if (visible && !document.hidden) setOffset((o) => o + 1);
+        if (visible && !document.hidden) {
+          setDealt(true);
+          setOffset((o) => o + 1);
+        }
       }, 3600);
     };
     start();
@@ -122,7 +128,7 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
               }
               transition={{
                 duration: 0.8,
-                delay: reduce || offset > 0 ? 0 : 0.5 + slot * 0.12,
+                delay: reduce || dealt ? 0 : 0.5 + slot * 0.12,
                 ease,
               }}
             >
