@@ -6,20 +6,38 @@ import type { Product } from "@/app/_content/products";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/** Three product cards fanned on the hero. Hovering (or tapping) spreads them; each links to its section. */
+const PHONE = "(max-width: 59.99rem)";
+
+/** Three product cards fanned on the hero. Desktop: hovering (or clicking) spreads them; each links to its section.
+ *  Phones: the deck deals itself every few seconds; a tap deals the next card and a swipe deals in either direction. */
 export function ProductStack({ items }: { items: readonly Product[] }) {
   const reduce = useReducedMotion();
   const [spread, setSpread] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [phone, setPhone] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const dragged = useRef(false);
   const three = items.slice(0, 3);
+  const n = three.length;
+  // Swiping left deals the top card away; swiping right brings the previous one back.
+  const deal = (dir: 1 | -1) => setOffset((o) => (o + n + dir) % n);
+
+  useEffect(() => {
+    const mq = window.matchMedia(PHONE);
+    const sync = () => setPhone(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   // Phones: the deck deals itself every few seconds while it's on screen; a tap deals the next card.
   useEffect(() => {
     const el = ref.current;
-    if (!el || reduce || !window.matchMedia("(max-width: 59.99rem)").matches) return;
+    if (!el || reduce || !window.matchMedia(PHONE).matches) return;
     let visible = false;
-    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { threshold: 0.4 });
+    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), {
+      threshold: 0.4,
+    });
     io.observe(el);
     const tick = setInterval(() => {
       if (visible && !document.hidden) setOffset((o) => o + 1);
@@ -36,7 +54,6 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
     { rotate: -1.5, x: 0, y: 0, scale: 1, sx: 0, sy: -14, sr: 0 },
   ];
   // Slot 2 is the top of the deck. Each card's slot rotates with the offset so the deck deals.
-  const n = three.length;
   return (
     <div
       ref={ref}
@@ -44,9 +61,11 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
       onPointerEnter={() => setSpread(true)}
       onPointerLeave={() => setSpread(false)}
       onClick={(e) => {
-        if (window.matchMedia("(max-width: 59.99rem)").matches) {
+        if (window.matchMedia(PHONE).matches) {
           e.preventDefault();
-          setOffset((o) => o + 1);
+          // The click that follows a swipe is not a tap.
+          if (dragged.current) return;
+          deal(1);
         } else setSpread((s) => !s);
       }}
     >
@@ -55,27 +74,52 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
         const l = layout[slot];
         const top = slot === n - 1;
         return (
-          <motion.a
+          <motion.div
             key={p.id}
-            href={`#${p.id}`}
-            className={`pcard${top ? " pcard--top" : ""}`}
-            initial={reduce ? false : { opacity: 0, y: 60, rotate: 0 }}
-            animate={
-              spread && !reduce
-                ? { opacity: 1, x: l.sx, y: l.sy, rotate: l.sr, scale: 1 }
-                : { opacity: 1, x: l.x, y: l.y, rotate: l.rotate, scale: l.scale }
-            }
-            transition={{ duration: 0.8, delay: reduce || offset > 0 ? 0 : 0.5 + slot * 0.12, ease }}
+            className="pcard__slot"
             style={{ zIndex: slot + 1 }}
+            drag={phone && top && !reduce ? "x" : false}
+            dragSnapToOrigin
+            dragElastic={0.7}
+            dragMomentum={false}
+            onDragStart={() => (dragged.current = true)}
+            onDragEnd={(_, info) => {
+              const far =
+                Math.abs(info.offset.x) > 48 || Math.abs(info.velocity.x) > 400;
+              if (far) deal(info.offset.x < 0 ? 1 : -1);
+              // Clear after the click that a released drag may fire.
+              setTimeout(() => (dragged.current = false), 0);
+            }}
           >
-            {p.badge ? <span className="pcard__badge">{p.badge}</span> : null}
-            <span className="pcard__name">{p.name}</span>
-            <span className="pcard__line">{p.line}</span>
-            <span className="pcard__meta">
-              <span className="pcard__price">{p.price}</span>
-              <span className="pcard__dur">{p.duration}</span>
-            </span>
-          </motion.a>
+            <motion.a
+              href={`#${p.id}`}
+              className={`pcard${top ? " pcard--top" : ""}`}
+              initial={reduce ? false : { opacity: 0, y: 60, rotate: 0 }}
+              animate={
+                spread && !reduce
+                  ? { opacity: 1, x: l.sx, y: l.sy, rotate: l.sr, scale: 1 }
+                  : {
+                      opacity: 1,
+                      x: l.x,
+                      y: l.y,
+                      rotate: l.rotate,
+                      scale: l.scale,
+                    }
+              }
+              transition={{
+                duration: 0.8,
+                delay: reduce || offset > 0 ? 0 : 0.5 + slot * 0.12,
+                ease,
+              }}
+            >
+              {p.badge ? <span className="pcard__badge">{p.badge}</span> : null}
+              <span className="pcard__name">{p.name}</span>
+              <span className="pcard__line">{p.line}</span>
+              <span className="pcard__meta">
+                <span className="pcard__dur">{p.duration}</span>
+              </span>
+            </motion.a>
+          </motion.div>
         );
       })}
     </div>

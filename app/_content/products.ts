@@ -1,11 +1,10 @@
-/** The five products from "Products - description.pdf" (client, Sep 2026). Ace your PM exam leads. */
+/** The five products from "Products - description.pdf" (client, Sep 2026). Ace your PM exam leads.
+ *  Prices are deliberately not published (client decision, 12 Sep 2026). */
 
 export type Product = {
   readonly id: string;
   readonly name: string;
   readonly short: string;
-  readonly price: string;
-  readonly priceNote?: string;
   readonly duration: string;
   readonly target: string;
   readonly line: string;
@@ -18,7 +17,6 @@ export const products: readonly Product[] = [
     id: "ace-your-exam",
     name: "Ace your PM exam",
     short: "Ace your exam",
-    price: "£450",
     duration: "8 weeks",
     target: "Project managers with some training or experience who want to get certified.",
     line: "Prepare. Practise. Pass with confidence.",
@@ -35,8 +33,6 @@ export const products: readonly Product[] = [
     id: "programme",
     name: "Private Project Management Programme",
     short: "Private programme",
-    price: "£1,500",
-    priceNote: "£500 of it payable after your job offer",
     duration: "12 weeks",
     target: "Anyone who wants to become a capable, career-ready project professional.",
     line: "From knowing nothing to becoming an exceptional project manager.",
@@ -55,7 +51,6 @@ export const products: readonly Product[] = [
     id: "internship",
     name: "PM Internship Experience",
     short: "Internship experience",
-    price: "£750",
     duration: "8 weeks",
     target: "People who know the theory but have no practical experience yet.",
     line: "Real project delivery, on your CV.",
@@ -70,7 +65,6 @@ export const products: readonly Product[] = [
     id: "starter",
     name: "Project Management Starter",
     short: "Starter kit",
-    price: "£30",
     duration: "Immediate access",
     target: "Complete beginners.",
     line: "Your first step into project management.",
@@ -84,7 +78,6 @@ export const products: readonly Product[] = [
     id: "for-business",
     name: "Fafoni for Business",
     short: "For business",
-    price: "Tailored",
     duration: "Scoped with you",
     target: "Businesses that want to upskill a team and improve project and operations delivery.",
     line: "Build stronger teams. Deliver better results.",

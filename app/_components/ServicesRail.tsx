@@ -49,7 +49,7 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
         const wrap = el.querySelector<HTMLElement>(".journey");
         const title = el.querySelector<HTMLElement>(".journey__title");
         const current = el.querySelector<HTMLElement>(".journey__current");
-        const price = el.querySelector<HTMLElement>(".journey__price");
+        const meta = el.querySelector<HTMLElement>(".journey__dur");
         if (!cards.length || !wrap || !title) return;
         let last = -1;
         const setActive = (i: number) => {
@@ -59,13 +59,13 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
           segs.forEach((seg, j) => seg.classList.toggle("is-active", j === i));
           const seg = segs[i];
           gsap.timeline()
-            .to([title, price], { opacity: 0, y: -4, duration: 0.18, ease: "power2.in" })
+            .to([title, meta], { opacity: 0, y: -4, duration: 0.18, ease: "power2.in" })
             .add(() => {
               title.textContent = seg.dataset.name ?? "";
-              if (price) price.textContent = seg.dataset.price ?? "";
+              if (meta) meta.textContent = seg.dataset.dur ?? "";
               if (current) current.textContent = String(i + 1).padStart(2, "0");
             })
-            .to([title, price], { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" });
+            .to([title, meta], { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" });
         };
         const triggers = cards.map((card, i) =>
           ScrollTrigger.create({ trigger: card, start: "top 55%", onEnter: () => setActive(i), onEnterBack: () => setActive(i) }),
@@ -106,12 +106,12 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
           <span className="journey__count">
             <span className="journey__current">01</span> / {String(products.length).padStart(2, "0")}
           </span>
-          <span className="journey__price">{products[0].price} · {products[0].duration}</span>
+          <span className="journey__dur">{products[0].duration}</span>
         </div>
         <p className="journey__title">{products[0].name}</p>
         <div className="journey__bar">
           {products.map((p, i) => (
-            <a key={p.id} href={`#${p.id}`} className="journey__seg" data-i={i} data-name={p.name} data-price={`${p.price} · ${p.duration}`} tabIndex={-1} />
+            <a key={p.id} href={`#${p.id}`} className="journey__seg" data-i={i} data-name={p.name} data-dur={p.duration} tabIndex={-1} />
           ))}
         </div>
       </div>
@@ -127,10 +127,8 @@ export function ServicesRail({ title, products, buyLabel, enquireLabel }: Props)
                 <h3>{p.name}</h3>
                 <p className="rail__line">{p.line}</p>
                 <p className="rail__meta">
-                  <span className="rail__price">{p.price}</span>
                   <span className="rail__dur">{p.duration}</span>
                 </p>
-                {p.priceNote ? <p className="rail__note">{p.priceNote}</p> : null}
                 <ul className="rail__includes">
                   {p.includes.map((item) => (
                     <li key={item}>{item}</li>
