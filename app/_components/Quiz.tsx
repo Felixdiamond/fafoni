@@ -1,35 +1,15 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-
-const KEY = "fafoni.quiz";
-const DELAY_MS = 30_000;
-/** Pages that never open the modal on a timer (client decision, 12 Sep 2026: not on the home page). */
-const NO_AUTO_OPEN = new Set(["/"]);
-
-const remember = (value: string) => {
-  try {
-    sessionStorage.setItem(KEY, value);
-  } catch {}
-};
-const remembered = () => {
-  try {
-    return sessionStorage.getItem(KEY);
-  } catch {
-    return null;
-  }
-};
 
 type Props = { src: string; label: string; title: string; note: string };
 
-/** The free-test modal (Google Form). Opens after 30 s on every page except the home page, or from any link marked data-quiz.
- *  Once dismissed it stays away for the rest of the session. Full-screen under 768 px. */
+/** The free-test modal (Google Form). Opens only from links marked data-quiz; there is no timed pop-up
+ *  (client decision, 13 Sep 2026). Full-screen under 768 px. */
 export function Quiz({ src, label, title, note }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const pathname = usePathname();
 
   const show = useCallback(() => {
     setMounted(true);
@@ -40,17 +20,6 @@ export function Quiz({ src, label, title, note }: Props) {
       document.documentElement.style.overflow = "hidden";
     }
   }, []);
-
-  // 30 seconds on the page, unless already dismissed this session or the page opts out. ?quiz=now skips the wait for testing.
-  useEffect(() => {
-    if (remembered()) return;
-    if (NO_AUTO_OPEN.has(pathname) && new URLSearchParams(location.search).get("quiz") !== "now") return;
-    const wait = new URLSearchParams(location.search).get("quiz") === "now" ? 0 : DELAY_MS;
-    const t = setTimeout(() => {
-      if (!remembered()) show();
-    }, wait);
-    return () => clearTimeout(t);
-  }, [show, pathname]);
 
   // Any "Take a free test" link opens the modal instead of leaving the page.
   useEffect(() => {
@@ -77,7 +46,6 @@ export function Quiz({ src, label, title, note }: Props) {
   }, [open]);
 
   const dismiss = () => {
-    remember("dismissed");
     setOpen(false);
     document.documentElement.style.overflow = "";
   };
