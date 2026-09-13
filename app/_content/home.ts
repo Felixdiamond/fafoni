@@ -107,7 +107,7 @@ export const stories = {
     {
       quote:
         "Fafoni made the whole process simple and stress-free. The coaching, practice exams and guidance were exactly what I needed.",
-      name: "Blessing A.",
+      name: "Sarah M.",
       role: "Assistant Project Manager, UK",
     },
   ],
