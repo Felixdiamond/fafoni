@@ -1,9 +1,12 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const KEY = "fafoni.quiz";
 const DELAY_MS = 30_000;
+/** Pages that never open the modal on a timer (client decision, 12 Sep 2026: not on the home page). */
+const NO_AUTO_OPEN = new Set(["/"]);
 
 const remember = (value: string) => {
   try {
@@ -20,13 +23,13 @@ const remembered = () => {
 
 type Props = { src: string; label: string; title: string; note: string };
 
-/** The free-test modal (Tally form). Opens after 30 s on any page, or from any link marked data-quiz.
- *  Dismissed or submitted → stays away for the rest of the session. Full-screen under 768 px. */
+/** The free-test modal (Google Form). Opens after 30 s on every page except the home page, or from any link marked data-quiz.
+ *  Once dismissed it stays away for the rest of the session. Full-screen under 768 px. */
 export function Quiz({ src, label, title, note }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const pathname = usePathname();
 
   const show = useCallback(() => {
     setMounted(true);
@@ -38,15 +41,16 @@ export function Quiz({ src, label, title, note }: Props) {
     }
   }, []);
 
-  // 60 seconds on the page, unless already dismissed or submitted this session. ?quiz=now skips the wait for testing.
+  // 30 seconds on the page, unless already dismissed this session or the page opts out. ?quiz=now skips the wait for testing.
   useEffect(() => {
     if (remembered()) return;
+    if (NO_AUTO_OPEN.has(pathname) && new URLSearchParams(location.search).get("quiz") !== "now") return;
     const wait = new URLSearchParams(location.search).get("quiz") === "now" ? 0 : DELAY_MS;
     const t = setTimeout(() => {
       if (!remembered()) show();
     }, wait);
     return () => clearTimeout(t);
-  }, [show]);
+  }, [show, pathname]);
 
   // Any "Take a free test" link opens the modal instead of leaving the page.
   useEffect(() => {
@@ -73,7 +77,7 @@ export function Quiz({ src, label, title, note }: Props) {
   }, [open]);
 
   const dismiss = () => {
-    remember(submitted ? "submitted" : "dismissed");
+    remember("dismissed");
     setOpen(false);
     document.documentElement.style.overflow = "";
   };
@@ -82,18 +86,6 @@ export function Quiz({ src, label, title, note }: Props) {
     if (dialog.current?.open) return;
     dismiss();
   };
-
-  // Tally tells the parent page when the form is submitted.
-  useEffect(() => {
-    const onMessage = (e: MessageEvent) => {
-      if (e.origin !== "https://tally.so") return;
-      if (typeof e.data !== "string" || !e.data.includes("Tally.FormSubmitted")) return;
-      setSubmitted(true);
-      remember("submitted");
-    };
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, []);
 
   return (
     <dialog
@@ -108,10 +100,8 @@ export function Quiz({ src, label, title, note }: Props) {
       <div className="quiz__panel">
         <header className="quiz__head">
           <div className="quiz__titles">
-            <p className="quiz__label">{submitted ? "Thank you" : label}</p>
-            <h2 id="quiz-title" className="quiz__title">
-              {submitted ? "Your answers are in." : title}
-            </h2>
+            <p className="quiz__label">{label}</p>
+            <h2 id="quiz-title" className="quiz__title">{title}</h2>
           </div>
           <button type="button" className="quiz__close" onClick={dismiss} aria-label="Close">
             <span aria-hidden="true" />
@@ -122,7 +112,7 @@ export function Quiz({ src, label, title, note }: Props) {
             <iframe className="quiz__frame" src={src} title={title} loading="eager" />
           ) : null}
         </div>
-        <p className="quiz__note">{submitted ? "We’ll be in touch with your results and next steps." : note}</p>
+        <p className="quiz__note">{note}</p>
       </div>
     </dialog>
   );
