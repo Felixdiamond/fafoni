@@ -17,10 +17,15 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
   const [phone, setPhone] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const dragged = useRef(false);
+  const restartAuto = useRef<() => void>(() => {});
   const three = items.slice(0, 3);
   const n = three.length;
   // Swiping left deals the top card away; swiping right brings the previous one back.
-  const deal = (dir: 1 | -1) => setOffset((o) => (o + n + dir) % n);
+  // A manual deal restarts the auto-deal clock so the deck never deals again a moment later.
+  const deal = (dir: 1 | -1) => {
+    setOffset((o) => (o + n + dir) % n);
+    restartAuto.current();
+  };
 
   useEffect(() => {
     const mq = window.matchMedia(PHONE);
@@ -39,12 +44,19 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
       threshold: 0.4,
     });
     io.observe(el);
-    const tick = setInterval(() => {
-      if (visible && !document.hidden) setOffset((o) => o + 1);
-    }, 3600);
+    let tick = 0;
+    const start = () => {
+      clearInterval(tick);
+      tick = window.setInterval(() => {
+        if (visible && !document.hidden) setOffset((o) => o + 1);
+      }, 3600);
+    };
+    start();
+    restartAuto.current = start;
     return () => {
       io.disconnect();
       clearInterval(tick);
+      restartAuto.current = () => {};
     };
   }, [reduce]);
   // Top card first in the array, rendered last so it paints on top.
@@ -60,6 +72,10 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
       className="pstack"
       onPointerEnter={() => setSpread(true)}
       onPointerLeave={() => setSpread(false)}
+      onPointerDown={() => {
+        dragged.current = false;
+        restartAuto.current();
+      }}
       onClick={(e) => {
         if (window.matchMedia(PHONE).matches) {
           e.preventDefault();
@@ -87,8 +103,6 @@ export function ProductStack({ items }: { items: readonly Product[] }) {
               const far =
                 Math.abs(info.offset.x) > 48 || Math.abs(info.velocity.x) > 400;
               if (far) deal(info.offset.x < 0 ? 1 : -1);
-              // Clear after the click that a released drag may fire.
-              setTimeout(() => (dragged.current = false), 0);
             }}
           >
             <motion.a
