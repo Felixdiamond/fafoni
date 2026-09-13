@@ -4,12 +4,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 type Props = { src: string; label: string; title: string; note: string };
 
-/** The free-test modal (Google Form). Opens only from links marked data-quiz; there is no timed pop-up
- *  (client decision, 13 Sep 2026). Full-screen under 768 px. */
+/** The free-test modal (the client's Tally form). Opens only from links marked data-quiz; there is no timed
+ *  pop-up (client decision, 13 Sep 2026). Full-screen under 768 px. */
 export function Quiz({ src, label, title, note }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const show = useCallback(() => {
     setMounted(true);
@@ -55,6 +56,17 @@ export function Quiz({ src, label, title, note }: Props) {
     dismiss();
   };
 
+  // Tally tells the parent page when the form is submitted.
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== "https://tally.so") return;
+      if (typeof e.data !== "string" || !e.data.includes("Tally.FormSubmitted")) return;
+      setSubmitted(true);
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
   return (
     <dialog
       ref={dialog}
@@ -68,8 +80,8 @@ export function Quiz({ src, label, title, note }: Props) {
       <div className="quiz__panel">
         <header className="quiz__head">
           <div className="quiz__titles">
-            <p className="quiz__label">{label}</p>
-            <h2 id="quiz-title" className="quiz__title">{title}</h2>
+            <p className="quiz__label">{submitted ? "Thank you" : label}</p>
+            <h2 id="quiz-title" className="quiz__title">{submitted ? "We’ve got your details." : title}</h2>
           </div>
           <button type="button" className="quiz__close" onClick={dismiss} aria-label="Close">
             <span aria-hidden="true" />
@@ -80,7 +92,7 @@ export function Quiz({ src, label, title, note }: Props) {
             <iframe className="quiz__frame" src={src} title={title} loading="eager" />
           ) : null}
         </div>
-        <p className="quiz__note">{note}</p>
+        <p className="quiz__note">{submitted ? "We’ll be in touch shortly." : note}</p>
       </div>
     </dialog>
   );
