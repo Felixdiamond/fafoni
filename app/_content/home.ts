@@ -65,8 +65,8 @@ export const why = {
     "Fafoni is a global project management and career development ecosystem, bringing together experienced project managers, industry experts and a strong network of professionals to help individuals, businesses and organisations achieve their goals.",
   tiles: [
     { title: "Global opportunities", body: "Work in top industries with visa sponsorship pathways.", tone: "photo-tall" },
-    { title: "Industry-relevant training", body: "Practical, up-to-date and job-focused.", tone: "plate" },
-    { title: "Expert guidance", body: "Support from experienced project management professionals.", tone: "plate" },
+    { title: "Industry-relevant training", body: "Practical, up-to-date and job-focused.", tone: "photo" },
+    { title: "Expert guidance", body: "Support from experienced project management professionals.", tone: "photo" },
     { title: "Flexible learning", body: "Study at your pace, anywhere, anytime.", tone: "photo" },
     { title: "Career support", body: "CV help, interview prep and job guidance.", tone: "accent" },
   ] as const,

@@ -305,18 +305,10 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
 .tile--photo:hover .tile__photo, .tile--photo-tall:hover .tile__photo { transform: scale(1.05); }
 .tile--photo::after, .tile--photo-tall::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, var(--color-plate-0) 0%, color-mix(in oklch, var(--color-plate-0) 72%, transparent) 42%, transparent 78%); }
 .tile--photo p, .tile--photo-tall p { color: var(--color-plate-ink-2); }
-.tile__art { position: absolute; z-index: 1; top: var(--space-lg); inset-inline-end: var(--space-lg); width: clamp(8rem, 40%, 12rem); height: auto; color: var(--color-accent); opacity: 0.85; pointer-events: none; }
-@media (max-width: 59.99rem) { .tile__art { width: 58%; top: var(--space-xl); inset-inline-end: var(--space-xl); } }
-.tile__art path, .tile__art circle { stroke-dasharray: 420; stroke-dashoffset: 420; }
-.tile[data-state="in"] .tile__art path, .tile[data-state="in"] .tile__art circle { animation: tile-draw 1.6s var(--ease-out) forwards; }
-.tile[data-state="in"] .tile__art path:nth-child(2), .tile[data-state="in"] .tile__art circle:nth-child(2) { animation-delay: 0.12s; }
-.tile[data-state="in"] .tile__art path:nth-child(3), .tile[data-state="in"] .tile__art circle:nth-child(3) { animation-delay: 0.24s; }
-.tile[data-state="in"] .tile__art path:nth-child(4) { animation-delay: 0.36s; }
-.tile[data-state="in"] .tile__art path:nth-child(5) { animation-delay: 0.48s; }
-.tile[data-state="in"] .tile__art path:nth-child(6) { animation-delay: 0.6s; }
-@keyframes tile-draw { to { stroke-dashoffset: 0; } }
-.tile--accent .tile__art { color: var(--color-plate-0); opacity: 0.55; }
 .tile--accent { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
+.tile--accent .tile__photo { filter: grayscale(1) contrast(1.05); mix-blend-mode: multiply; opacity: 0.9; }
+.tile--accent::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, var(--color-accent) 12%, color-mix(in oklch, var(--color-accent) 55%, transparent) 55%, transparent 100%); }
+.tile--accent:hover .tile__photo { transform: scale(1.05); }
 .tile--accent h3 { color: var(--color-accent-ink); }
 .tile--accent p { color: var(--color-ink-2); }
 @media (min-width: 60rem) {
@@ -812,5 +804,4 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 150ms !important; animation-iteration-count: 1 !important; transition-duration: 150ms !important; transition-delay: 0ms !important; }
   .btn:hover, .link-cta:hover .arrow, .tile--photo:hover .tile__photo, .tile--photo-tall:hover .tile__photo { transform: none; }
-  .tile__art path, .tile__art circle { stroke-dashoffset: 0; animation: none; }
 }
