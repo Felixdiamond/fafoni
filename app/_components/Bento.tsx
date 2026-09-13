@@ -9,9 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 import teamPhoto from "@/public/photos/pexels-8117476.jpg";
 import laptopPhoto from "@/public/photos/pexels-9429373.jpg";
-import careerPhoto from "@/public/photos/pexels-5439379.jpg";
-import guidancePhoto from "@/public/photos/pexels-36765718.jpg";
-import trainingPhoto from "@/public/photos/pexels-8761327.jpg";
+import { TileMotif } from "./TileMotif";
 
 type Tone = "photo-tall" | "photo" | "plate" | "accent";
 type Tile = { readonly title: string; readonly body: string; readonly tone: Tone };
@@ -20,12 +18,15 @@ type Tile = { readonly title: string; readonly body: string; readonly tone: Tone
 const photos: Record<string, { src: StaticImageData; alt: string }> = {
   "Global opportunities": { src: teamPhoto, alt: "A team planning a project together around a table" },
   "Flexible learning": { src: laptopPhoto, alt: "A woman studying at a laptop at a wooden desk" },
-  "Industry-relevant training": { src: trainingPhoto, alt: "A trainer presenting a business analysis session to a room" },
-  "Expert guidance": { src: guidancePhoto, alt: "Two professionals in conversation in an office" },
-  "Career support": { src: careerPhoto, alt: "A candidate at a desk during a job interview" },
 };
 
 const ease = [0.16, 1, 0.3, 1] as const;
+
+const motifs: Record<string, "training" | "guidance" | "career"> = {
+  "Industry-relevant training": "training",
+  "Expert guidance": "guidance",
+  "Career support": "career",
+};
 
 /** Phones: as each sticky card slides over the previous one, the one underneath settles back a touch. */
 export function stackScale(root: HTMLElement | null, selector: string) {
@@ -108,6 +109,7 @@ function TileItem({ tile, index }: { tile: Tile; index: number }) {
           fetchPriority="low"
         />
       ) : null}
+      {!photo && motifs[tile.title] ? <TileMotif kind={motifs[tile.title]} /> : null}
       <div className="tile__body">
         <h3>{tile.title}</h3>
         <p>{tile.body}</p>
