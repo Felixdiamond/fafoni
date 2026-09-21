@@ -830,9 +830,10 @@ html[data-hide-nav] .nav { transform: translateY(-120%); opacity: 0; pointer-eve
 .quiz__close span::before, .quiz__close span::after { content: ""; position: absolute; top: 50%; left: 50%; width: 18px; height: 2px; background: currentColor; transform: translate(-50%, -50%) rotate(45deg); }
 .quiz__close span::after { transform: translate(-50%, -50%) rotate(-45deg); }
 /* The Tally quiz is styled for a light page (dark grey labels); the enquiry form for a dark one. */
+/* Both forms render on a light page (the quiz has dark-grey labels; the Google Form embed is
+   opaque white and can't be made transparent), so the body stays paper for either. */
 .quiz__body { min-height: 0; background: var(--color-paper); }
-.quiz__frame { display: block; width: 100%; height: 100%; border: 0; background: transparent; }
-.quiz[data-form="enquiry"] .quiz__body { background: var(--color-plate-0); }
+.quiz__frame { display: block; width: 100%; height: 100%; border: 0; background: var(--color-paper); }
 .quiz__note { padding: var(--space-sm) var(--space-lg); font-size: var(--text-sm); color: var(--color-plate-muted); background: var(--color-plate); border-top: var(--rule-hair) solid var(--color-plate-rule); }
 @media (max-width: 47.99rem) {
   .quiz { width: 100vw; height: 100dvh; margin: 0; }
