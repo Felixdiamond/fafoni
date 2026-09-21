@@ -39,6 +39,14 @@ export function SiteFooter() {
         </ul>
         <p className="foot__meta">
           <span>© {year} Fafoni. All rights reserved.</span>
+          <span className="foot__legal">
+            <Link href="/privacy" className="foot__legal-link">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="foot__legal-link">
+              Terms &amp; Conditions
+            </Link>
+          </span>
           <span>Project management ecosystem</span>
         </p>
       </div>
