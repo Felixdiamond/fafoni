@@ -1,0 +1,275 @@
+# Pages CMS configuration — https://pagescms.org/docs/configuration/
+# The client edits the JSON files in app/_content/data through app.pagescms.org.
+# Each save is a commit to main; Vercel redeploys the site automatically (about a minute).
+# Layout, design, legal pages and form links are deliberately NOT editable here.
+
+settings:
+  content:
+    merge: true # keep any keys in the JSON that this schema doesn't list
+  commit:
+    templates:
+      update: "Content: update {filename} (via Pages CMS, {userName})"
+
+content:
+  # ───────────────────────────── Home ─────────────────────────────
+  - name: home
+    label: Home page
+    type: file
+    path: app/_content/data/home.json
+    format: json
+    fields:
+      - name: brandLine
+        label: Brand line (menu)
+        type: string
+        required: true
+      - name: tagline
+        label: Tagline (footer)
+        type: string
+        required: true
+      - name: hero
+        label: Hero (top of the home page)
+        type: object
+        fields:
+          - { name: title, label: Headline, type: text, required: true }
+          - { name: lede, label: Intro paragraph, type: text, required: true }
+          - { name: primary, label: Main button, type: string, required: true }
+          - { name: secondary, label: Second button, type: string, required: true }
+      - name: strip
+        label: Figures strip (under the hero)
+        type: object
+        fields:
+          - { name: sign, label: Heading, type: string, required: true }
+          - name: cells
+            label: Figures
+            description: "Three figures. Kind = Range uses Prefix, From and To. Number uses Prefix, Number and Suffix. Words uses Words only."
+            type: object
+            list: { min: 3, max: 3 }
+            fields:
+              - name: kind
+                label: Kind
+                type: select
+                required: true
+                options:
+                  values:
+                    - { name: range, label: "Range (e.g. £50,000–£100,000)" }
+                    - { name: number, label: "Number (e.g. £38,700+)" }
+                    - { name: text, label: "Words instead of a number" }
+              - { name: prefix, label: Prefix (e.g. £), type: string }
+              - { name: from, label: From, type: number }
+              - { name: to, label: To, type: number }
+              - { name: value, label: Number, type: number }
+              - { name: suffix, label: Suffix (e.g. +), type: string }
+              - { name: text, label: Words, type: string }
+              - { name: label, label: Caption, type: text, required: true }
+      - name: certifications
+        label: Certifications
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - { name: cta, label: Link text, type: string, required: true }
+          - name: list
+            label: Certifications
+            type: object
+            list: { min: 1 }
+            fields:
+              - { name: name, label: Name, type: string, required: true }
+              - { name: registered, label: "Show ® after the name", type: boolean }
+      - name: why
+        label: Why choose Fafoni
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - name: tiles
+            label: Tiles
+            description: "Five tiles in a fixed layout. Edit the words; the tile style is set by the design."
+            type: object
+            list: { min: 5, max: 5 }
+            fields:
+              - { name: title, label: Title, type: string, required: true }
+              - { name: body, label: Text, type: text, required: true }
+              - { name: tone, label: Tile style, type: string, readonly: true }
+      - name: industries
+        label: Industries
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - { name: cta, label: Link text, type: string, required: true }
+          - { name: list, label: Industries, type: string, list: { min: 1 } }
+      - name: stories
+        label: Success stories (also shown on Services)
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - name: items
+            label: Stories
+            type: object
+            list: { min: 1 }
+            fields:
+              - { name: quote, label: Quote, type: text, required: true }
+              - { name: name, label: Name, type: string, required: true }
+              - { name: role, label: Role, type: string, required: true }
+              - name: photo
+                label: Photo
+                description: "No photo shows the person's initials instead."
+                type: select
+                options:
+                  values:
+                    - { name: none, label: No photo }
+                    - { name: adaeze, label: Portrait 1 (Adaeze) }
+                    - { name: emmanuel, label: Portrait 2 (Emmanuel) }
+                    - { name: sarah, label: Portrait 3 (Sarah) }
+      - name: closing
+        label: Closing section (also shown on Services)
+        type: object
+        fields:
+          - { name: statement, label: Statement, type: string, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - { name: contactLabel, label: Contact label, type: string, required: true }
+          - { name: contactBody, label: Contact text, type: text, required: true }
+
+  # ───────────────────────────── Services ─────────────────────────────
+  - name: products
+    label: Services (the five products)
+    type: file
+    path: app/_content/data/products.json
+    format: json
+    fields:
+      - name: products
+        label: Products
+        description: "Shown in this order on the Services page. Prices are not shown on the site."
+        type: object
+        list:
+          min: 1
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - { name: id, label: Link id, description: "Used in page links. Leave as is; new products get one from their name.", type: string, readonly: true }
+          - { name: name, label: Name, type: string, required: true }
+          - { name: short, label: Short name (tabs and menus), type: string, required: true }
+          - { name: duration, label: Duration, type: string, required: true }
+          - { name: target, label: Who it's for, type: text, required: true }
+          - { name: line, label: One-line promise, type: string, required: true }
+          - { name: badge, label: Badge (optional, e.g. "Start here"), type: string }
+          - { name: includes, label: What's included, type: string, list: { min: 1 } }
+
+  - name: services
+    label: Services page text
+    type: file
+    path: app/_content/data/services.json
+    format: json
+    fields:
+      - name: hero
+        label: Hero
+        type: object
+        fields:
+          - { name: title, label: Headline, type: text, required: true }
+          - { name: lede, label: Intro paragraph, type: text, required: true }
+      - { name: intro, label: Products heading, type: string, required: true }
+      - name: comingSoon
+        label: Coming soon
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - { name: body, label: Text, type: text, required: true }
+      - { name: buyLabel, label: Product button, type: string, required: true }
+      - { name: enquireLabel, label: Enquire button, type: string, required: true }
+
+  # ───────────────────────────── About ─────────────────────────────
+  - name: about
+    label: About page
+    type: file
+    path: app/_content/data/about.json
+    format: json
+    fields:
+      - name: hero
+        label: Hero
+        type: object
+        fields:
+          - { name: title, label: Headline, type: string, required: true }
+          - { name: lead, label: Lead line, type: string, required: true }
+          - { name: words, label: Sequence words, type: string, list: { min: 1 } }
+          - { name: body, label: Paragraph, type: text, required: true }
+      - name: who
+        label: Who we are
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - { name: roles, label: Roles, type: string, list: { min: 1 } }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - name: pillars
+            label: Pillars
+            type: object
+            list: { min: 1 }
+            fields:
+              - { name: name, label: Title, type: string, required: true }
+              - { name: body, label: Text, type: text, required: true }
+      - name: purpose
+        label: Purpose
+        type: object
+        fields:
+          - { name: title, label: Heading, type: text, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - name: verbs
+            label: What we do
+            type: object
+            list: { min: 1 }
+            fields:
+              - { name: verb, label: Word, type: string, required: true }
+              - { name: what, label: Meaning, type: string, required: true }
+      - name: values
+        label: Values
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+          - { name: words, label: Values, type: string, list: { min: 1 } }
+      - name: support
+        label: Who we support
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string, required: true }
+          - name: rows
+            label: Rows
+            type: object
+            list: { min: 1 }
+            fields:
+              - { name: who, label: Who, type: string, required: true }
+              - { name: what, label: What, type: string, required: true }
+      - name: closing
+        label: Closing
+        type: object
+        fields:
+          - { name: statement, label: Statement, type: string, required: true }
+          - { name: body, label: Paragraph, type: text, required: true }
+
+  # ───────────────────────────── Shared ─────────────────────────────
+  - name: numbers
+    label: Figures (About and Services pages)
+    type: file
+    path: app/_content/data/numbers.json
+    format: json
+    fields:
+      - { name: title, label: Heading, type: string, required: true }
+      - name: cells
+        label: Figures
+        description: "PLACEHOLDER figures until you supply real ones. Four figures in a fixed layout."
+        type: object
+        list: { min: 4, max: 4 }
+        fields:
+          - { name: value, label: Number, type: number, required: true }
+          - { name: suffix, label: Suffix (e.g. +), type: string }
+          - { name: label, label: Caption, type: text, required: true }
+
+  - name: contact
+    label: Contact details
+    type: file
+    path: app/_content/data/contact.json
+    format: json
+    fields:
+      - { name: email, label: Email, type: string, required: true }
+      - { name: phone, label: Phone (as it should appear), type: string, required: true }

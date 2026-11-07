@@ -3,8 +3,13 @@
  *  consultation form (their href's query string, e.g. the product, is passed on to the embed).
  *  Free test = Tally (tally.so/r/xXAXYv). Consultation / enquiry = the client's Google Form
  *  (forms.gle/RReYsSScn91kXe2K6, made public 17 Sep 2026 — the earlier link required sign-in). */
-export const email = "hello@fafoni.com";
-export const phone = { display: "+44 7459 627496", href: "tel:+447459627496" };
+import contact from "./data/contact.json";
+import { str } from "./cms";
+
+/** Email and phone are client-editable in Pages CMS (./data/contact.json). The tel: link is derived from the display form. */
+export const email = str(contact.email).trim();
+const phoneDisplay = str(contact.phone).trim();
+export const phone = { display: phoneDisplay, href: `tel:${phoneDisplay.replace(/[^\d+]/g, "")}` };
 
 const enquiryForm = "https://docs.google.com/forms/d/e/1FAIpQLScmSFD8c7267Hu61PdS83KztEDLAvIOU1c5-Bb0bsyhIvw3WQ/viewform";
 const quizForm = "https://tally.so/r/xXAXYv";

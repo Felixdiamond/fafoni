@@ -1,13 +1,16 @@
-/** Services page copy. Source of truth: content/source-content.md. */
+/** Services page copy. Source of truth: content/source-content.md.
+ *  Client-editable text lives in ./data/services.json (Pages CMS). */
+import data from "./data/services.json";
+import { str } from "./cms";
 
 export const servicesHero = {
-  title: "Practical solutions for every stage of your project journey.",
-  lede:
-    "From learning and certification to career growth and business support, Fafoni provides the tools, resources and expertise you need to succeed.",
+  title: str(data.hero.title),
+  lede: str(data.hero.lede),
 };
 
-export const servicesIntro = "Solutions designed for your goals.";
+export const servicesIntro = str(data.intro);
+
 export const comingSoon = {
-  title: "Something exciting is on the way.",
-  body: "A new way to learn, connect and grow in project management.",
+  title: str(data.comingSoon.title),
+  body: str(data.comingSoon.body),
 };

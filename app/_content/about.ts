@@ -1,55 +1,40 @@
-/** About page copy. Source of truth: content/source-content.md. */
+/** About page copy. Source of truth: content/source-content.md.
+ *  Client-editable text lives in ./data/about.json (Pages CMS). This file shapes it for the components. */
+import data from "./data/about.json";
+import { list, str } from "./cms";
 
 export const aboutHero = {
-  title: "Everything begins with a project.",
-  lead: "We are Fafoni. We believe in people, skills and a better future.",
-  words: ["Ideas", "Plan", "Action", "Impact"],
-  body:
-    "Every product we use, every business we build, every community we serve and every goal we achieve. It all starts with a project. And project management is what turns ideas into reality.",
+  title: str(data.hero.title),
+  lead: str(data.hero.lead),
+  words: list(data.hero.words).map(str),
+  body: str(data.hero.body),
 };
 
 export const who = {
-  title: "Project managers are",
-  roles: ["Nation builders", "World changers", "Change makers"],
-  body:
-    "Fafoni is a global project management and career development ecosystem, connecting people, expertise and opportunities to turn ambition into measurable impact.",
-  pillars: [
-    { name: "Decades of experience", body: "A team of project managers and experts bringing real-world experience across multiple industries." },
-    { name: "Proven track record", body: "A history of delivering results, creating opportunities and making a positive impact." },
-    { name: "Nation builders", body: "Committed to developing talent, strengthening communities and building a better future." },
-  ],
+  title: str(data.who.title),
+  roles: list(data.who.roles).map(str),
+  body: str(data.who.body),
+  pillars: list(data.who.pillars).map((p) => ({ name: str(p.name), body: str(p.body) })),
 };
 
 export const purpose = {
-  title: "To make project management accessible, practical and valuable.",
-  body:
-    "We support individuals, businesses and organisations with the knowledge, skills and opportunities they need to turn ideas into reality.",
-  verbs: [
-    { verb: "Learn", what: "Build your foundation" },
-    { verb: "Grow", what: "Advance your career" },
-    { verb: "Get certified", what: "Boost your credibility" },
-    { verb: "Train", what: "Develop your team" },
-  ],
+  title: str(data.purpose.title),
+  body: str(data.purpose.body),
+  verbs: list(data.purpose.verbs).map((v) => ({ verb: str(v.verb), what: str(v.what) })),
 };
 
 export const values = {
-  title: "Built on people, partnerships and progress.",
-  body: "Everything we do is designed to create real opportunities and lasting change.",
-  words: ["Excellence", "Integrity", "Inclusion", "Impact"],
+  title: str(data.values.title),
+  body: str(data.values.body),
+  words: list(data.values.words).map(str),
 };
 
 export const support = {
-  title: "Who we support",
-  rows: [
-    { who: "Individuals", what: "Build skills, unlock opportunities" },
-    { who: "Businesses", what: "Hire talent, improve delivery" },
-    { who: "Government", what: "Strengthen public services and communities" },
-    { who: "Global", what: "Create a more sustainable future" },
-  ],
+  title: str(data.support.title),
+  rows: list(data.support.rows).map((r) => ({ who: str(r.who), what: str(r.what) })),
 };
 
 export const aboutClosing = {
-  statement: "Be part of the Fafoni ecosystem.",
-  body:
-    "Whether you’re looking to build your skills, find the right talent, partner on a project or explore new opportunities, we’re here for you.",
+  statement: str(data.closing.statement),
+  body: str(data.closing.body),
 };

@@ -1,0 +1,144 @@
+{
+  "brandLine": "Skills · Careers · Global Opportunities",
+  "tagline": "Skills. Careers. Global Opportunities.",
+  "hero": {
+    "title": "Get qualified, land your dream job in project management and earn £50k–£100k a year with ease",
+    "lede": "Get certified, build in-demand skills and gain the qualifications employers are looking for, and take your career global with visa sponsorship opportunities.",
+    "primary": "Book a free consultation",
+    "secondary": "Take a free test"
+  },
+  "strip": {
+    "sign": "In-demand skills. Global opportunities.",
+    "cells": [
+      {
+        "kind": "range",
+        "prefix": "£",
+        "from": 50000,
+        "to": 100000,
+        "label": "UK project manager average salary, per year"
+      },
+      {
+        "kind": "number",
+        "prefix": "£",
+        "value": 38700,
+        "suffix": "+",
+        "label": "Skilled Worker visa threshold. Many project management roles meet it, which makes sponsorship possible."
+      },
+      {
+        "kind": "text",
+        "text": "Visa sponsorship opportunities",
+        "label": "Skilled Worker visa and Global Talent opportunities with UK employers who sponsor project professionals, so you can build your career and stay."
+      }
+    ]
+  },
+  "certifications": {
+    "title": "Get certified. Stand out.",
+    "body": "Gain globally recognised certifications like PMP®, PRINCE2®, CAPM® and more. Build credibility, boost your CV and open doors to better opportunities.",
+    "cta": "See our services",
+    "list": [
+      {
+        "name": "PMP",
+        "registered": true
+      },
+      {
+        "name": "PRINCE2",
+        "registered": true
+      },
+      {
+        "name": "CAPM",
+        "registered": true
+      },
+      {
+        "name": "Agile",
+        "registered": false
+      },
+      {
+        "name": "PMI-ACP",
+        "registered": true
+      },
+      {
+        "name": "Scrum",
+        "registered": false
+      },
+      {
+        "name": "ITIL",
+        "registered": true
+      }
+    ]
+  },
+  "why": {
+    "title": "Why choose Fafoni",
+    "body": "Fafoni is a global project management and career development ecosystem, bringing together experienced project managers, industry experts and a strong network of professionals to help individuals, businesses and organisations achieve their goals.",
+    "tiles": [
+      {
+        "title": "Global opportunities",
+        "body": "Work in top industries with visa sponsorship pathways.",
+        "tone": "photo-tall"
+      },
+      {
+        "title": "Industry-relevant training",
+        "body": "Practical, up-to-date and job-focused.",
+        "tone": "plate"
+      },
+      {
+        "title": "Expert guidance",
+        "body": "Support from experienced project management professionals.",
+        "tone": "plate"
+      },
+      {
+        "title": "Flexible learning",
+        "body": "Study at your pace, anywhere, anytime.",
+        "tone": "photo"
+      },
+      {
+        "title": "Career support",
+        "body": "CV help, interview prep and job guidance.",
+        "tone": "accent"
+      }
+    ]
+  },
+  "industries": {
+    "title": "Many industries. Endless opportunities.",
+    "body": "From startups to global corporations, project managers are the backbone of progress.",
+    "cta": "See all services",
+    "list": [
+      "IT & Technology",
+      "Finance & Banking",
+      "Healthcare",
+      "Construction & Infrastructure",
+      "Government & Public Sector",
+      "Manufacturing",
+      "Consulting"
+    ]
+  },
+  "stories": {
+    "title": "Real people. Real progress.",
+    "body": "Hear from our learners who secured certifications, gained new skills and landed dream roles with visa sponsorship.",
+    "items": [
+      {
+        "quote": "The PMP prep programme gave me the confidence and skills I needed. Within three weeks of getting certified, I was receiving interview invitations from UK employers.",
+        "name": "Adaeze T.",
+        "role": "Project Manager, UK",
+        "photo": "adaeze"
+      },
+      {
+        "quote": "The support and resources were excellent. I got certified and secured a role with visa sponsorship in two months.",
+        "name": "Emmanuel K.",
+        "role": "Project Coordinator, UK",
+        "photo": "emmanuel"
+      },
+      {
+        "quote": "Fafoni made the whole process simple and stress-free. The coaching, practice exams and guidance were exactly what I needed.",
+        "name": "Sarah M.",
+        "role": "Assistant Project Manager, UK",
+        "photo": "sarah"
+      }
+    ]
+  },
+  "closing": {
+    "statement": "Your goals. Our mission.",
+    "body": "Find out which project management path is right for you and get a personalised action plan.",
+    "contactLabel": "Contact",
+    "contactBody": "Questions about certification, careers or sponsorship routes? Write to us."
+  }
+}
